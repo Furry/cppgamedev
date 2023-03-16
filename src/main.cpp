@@ -1,6 +1,8 @@
 #include <iostream>
 #include "SFML/Graphics.hpp"
 #include "libs/atlas.h"
+#include "modules/perlin.h"
+
 using namespace std;
 
 int main() {
@@ -8,7 +10,18 @@ int main() {
 
     Atlas crystalCave("static/textures/crystalCaveObjects8x8.png", 8, 8);
 
-    sf::Texture* texture = crystalCave.getTexture(33);
+    Perlin perlin(4);
+    cout << perlin.getNoise(0, 0) << endl;
+    cout << "Size: " << crystalCave.getCount() << endl;
+    sf::Texture* textures[] = {
+        crystalCave.getTexture(165),
+        crystalCave.getTexture(166),
+        crystalCave.getTexture(167),
+        crystalCave.getTexture(168),
+        crystalCave.getTexture(169)
+    };
+
+    sf::Texture* texture = crystalCave.getTexture(165);
     sf::Sprite sprite;
 
     sprite.setTexture(*texture);
@@ -35,12 +48,17 @@ int main() {
         window.draw(sprite);
 
         // Draw a 4x4 grid of the sprites
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
+        for (int i = 0; i < 25; i++) {
+            for (int j = 0; j < 25; j++) {
                 sprite.setPosition(i * 32, j * 32);
+                // cout << perlin.getNoise(i, j) << endl;
+                sprite.setTexture(*textures[perlin.getNoise(i, j)]);
                 window.draw(sprite);
             }
         }
+
+        // Quit the app
+        // window.close();
 
 
         // window.draw(sprite);
