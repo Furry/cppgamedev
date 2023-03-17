@@ -14,6 +14,7 @@ ifeq ($(OS),Windows_NT)
 	CP = xcopy /E /Y /I
 	INCLUDE_DIRS = -I/path/to/windows/include
 	LIB_DIRS = -L/path/to/windows/libs
+	SRC = $(shell dir /B /S /A-D $(SRCDIR)\\*.cpp)
 else
 	EXE_EXT =
 	RM = rm -f
@@ -22,6 +23,7 @@ else
 	CP = cp -r
 	INCLUDE_DIRS = -I/path/to/linux/include
 	LIB_DIRS = -L/path/to/linux/libs
+	SRC = $(shell find $(SRCDIR) -type f -name '*.cpp')
 endif
 
 # Compiler and flags
@@ -30,7 +32,6 @@ CXXFLAGS = -std=c++17 -Wall -Wextra -g $(INCLUDE_DIRS)
 LDFLAGS = $(LIB_DIRS) -lsfml-graphics -lsfml-window -lsfml-system
 
 # Source and target files
-SRC = $(wildcard $(SRCDIR)/**/*.cpp $(SRCDIR)/*.cpp)
 OBJ = $(SRC:%.cpp=$(BUILDDIR)/%.o)
 TARGET = $(BUILDDIR)/MySFMLApp$(EXE_EXT)
 

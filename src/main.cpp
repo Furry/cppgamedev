@@ -3,44 +3,51 @@
 #include "libs/atlas.h"
 #include "modules/perlin.h"
 
+#include "core/game.cpp"
+#include "libs/ticker.h"
+
 using namespace std;
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(800, 800), "SFML works even better uwu!");
 
-    Atlas crystalCave("static/textures/crystalCaveObjects8x8.png", 8, 8);
+    // ! Critical: Create game instance
+    Game game(0);
+
+    TextureManager m = game.getTextureManager();
+    m.load("crystalCaveObjects8x8", 8, 8);
+    m.load("lofiChar", 8, 8);
+
+    game.start();
+
+    // Player player(charTextures);
 
     Perlin perlin(4);
-    cout << perlin.getNoise(0, 0) << endl;
-    cout << "Size: " << crystalCave.getCount() << endl;
+    // cout << perlin.getNoise(0, 0) << endl;
+    // cout << "Size: " << crystalCave.getCount() << endl;
     sf::Texture* textures[] = {
-        crystalCave.getTexture(165),
-        crystalCave.getTexture(166),
-        crystalCave.getTexture(167),
-        crystalCave.getTexture(168),
-        crystalCave.getTexture(169)
+        m.getTexture("crystalCaveObjects8x8", 165),
+        m.getTexture("crystalCaveObjects8x8", 166),
+        m.getTexture("crystalCaveObjects8x8", 167),
+        m.getTexture("crystalCaveObjects8x8", 168),
+        m.getTexture("crystalCaveObjects8x8", 169)
     };
 
-    sf::Texture* texture = crystalCave.getTexture(165);
     sf::Sprite sprite;
-
-    sprite.setTexture(*texture);
-    int tally = 0;
-    int indx = 0;
+    sprite.setTexture(*textures[0]);
+    // int tally = 0;
+    // int indx = 0;
     while (window.isOpen()) {
         sf::Event event;
-        while (window.pollEvent(event))
-        {
+        while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 window.close();
         }
+
         // printf("Event: %d", event.type);
 
         window.clear();
 
-        // Scale the sprite up and draw it in the center
-
-        // Draw the sprite across the screen (its 8by8)
 
         // Scale the sprite and draw it across the screen
         sprite.setScale(4, 4);
@@ -51,20 +58,20 @@ int main() {
         for (int i = 0; i < 25; i++) {
             for (int j = 0; j < 25; j++) {
                 sprite.setPosition(i * 32, j * 32);
-                // cout << perlin.getNoise(i, j) << endl;
                 sprite.setTexture(*textures[perlin.getNoise(i, j)]);
                 window.draw(sprite);
             }
         }
 
-        // Quit the app
-        // window.close();
+        // game.player->render(&window);
+    //     // Quit the app
+    //     // window.close();
 
 
-        // window.draw(sprite);
+    //     // window.draw(sprite);
 
         window.display();
-        tally += 1;
+    //     tally += 1;
     }
 
     return 0;
