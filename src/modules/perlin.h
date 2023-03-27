@@ -9,6 +9,7 @@ class Perlin {
         int bound;
         float intensity = 1.0;
     public:
+        Perlin();
         Perlin(int intensity);
         Perlin(int seed, int intensity);
         Perlin(int seed, int bound, float intensity);

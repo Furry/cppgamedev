@@ -3,6 +3,12 @@
 #include <ctime>
 #include "perlin.h"
 
+Perlin::Perlin() {
+    seed = time(NULL);
+    this->bound = 1;
+    this->intensity = 1.0;
+}
+
 Perlin::Perlin(int bound) {
     seed = time(NULL);
     this->bound = bound;

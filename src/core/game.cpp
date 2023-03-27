@@ -26,7 +26,7 @@ class Game {
             // Create the tick thread, with a tick rate of 45 hz
             this->isRemote = false;
             TextureManager textureManager = TextureManager();
-            Player player = Player(textureManager);
+            Player player = Player(&textureManager);
         }
 
         void start() {

@@ -23,8 +23,6 @@ int main() {
     // Player player(charTextures);
 
     Perlin perlin(4);
-    // cout << perlin.getNoise(0, 0) << endl;
-    // cout << "Size: " << crystalCave.getCount() << endl;
     sf::Texture* textures[] = {
         m.getTexture("crystalCaveObjects8x8", 165),
         m.getTexture("crystalCaveObjects8x8", 166),
@@ -35,34 +33,62 @@ int main() {
 
     sf::Sprite sprite;
     sprite.setTexture(*textures[0]);
-    // int tally = 0;
+
+    Player player = Player(&m);
+    player.stats.speed = 3; 
+    int tally = 0;
     // int indx = 0;
     while (window.isOpen()) {
+        tally++;
         sf::Event event;
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 window.close();
         }
 
+        // If w key is pressed
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+            // player.setPosition(sf::Vector2f(player.getPosition().x, player.getPosition().y - 1));
+            player.move(Direction::UP);
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+            // player.setPosition(sf::Vector2f(player.getPosition().x, player.getPosition().y + 1));
+            player.move(Direction::DOWN);
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+            // player.setPosition(sf::Vector2f(player.getPosition().x - 1, player.getPosition().y));
+            player.move(Direction::LEFT);
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+            // player.setPosition(sf::Vector2f(player.getPosition().x + 1, player.getPosition().y));
+            player.move(Direction::RIGHT);
+        }
+
         // printf("Event: %d", event.type);
 
+        // Move the view to the player
+        window.setView(player.getView());
+
         window.clear();
+        player.update(tally);
+
 
 
         // Scale the sprite and draw it across the screen
         sprite.setScale(4, 4);
         sprite.setPosition(0, 0);
-        window.draw(sprite);
+        // window.draw(sprite);
 
         // Draw a 4x4 grid of the sprites
-        for (int i = 0; i < 25; i++) {
-            for (int j = 0; j < 25; j++) {
+        for (int i = -100; i < 100; i++) {
+            for (int j = -100; j < 100; j++) {
                 sprite.setPosition(i * 32, j * 32);
                 sprite.setTexture(*textures[perlin.getNoise(i, j)]);
                 window.draw(sprite);
             }
         }
 
+        player.render(&window);
         // game.player->render(&window);
     //     // Quit the app
     //     // window.close();
