@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 #include "../../modules/perlin.h"
-
+#include "../entities/object.h"
 #include <SFML/Graphics.hpp>
 
 class Level {
@@ -12,20 +12,18 @@ class Level {
         Perlin perlin;
         std::string atlasName;
         std::vector<int> atlasIndices;
-        sf::Vector2f viewPosition;
+        std::vector<Object> objects;
         int seed;
 
     public:
         Level(
             std::string atlasName,
             std::vector<int> atlasIndices,
-            sf::Vector2f viewPosition,
             int seed);
         ~Level();
 
         void update(int tick);
         void render(sf::RenderWindow* window);
-        void setViewPosition(sf::Vector2f position);
-        sf::Vector2f getViewPosition();
+        void renderAt(sf::RenderWindow* window, sf::Vector2f position);
 };
 #endif

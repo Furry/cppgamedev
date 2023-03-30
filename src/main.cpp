@@ -4,6 +4,7 @@
 #include "modules/perlin.h"
 
 #include "core/game.cpp"
+#include "core/level/level.h"
 #include "libs/ticker.h"
 
 using namespace std;
@@ -11,8 +12,10 @@ using namespace std;
 int main() {
     sf::RenderWindow window(sf::VideoMode(800, 800), "SFML works even better uwu!");
 
-    // ! Critical: Create game instance
+    // ! Create game instance
     Game game(0);
+
+    // Level lvl = Level("crystalCaveObjects8x8", {165, 166, 167, 168, 169}, sf::Vector2f(400, 400), 0);
 
     TextureManager m = game.getTextureManager();
     m.load("crystalCaveObjects8x8", 8, 8);
