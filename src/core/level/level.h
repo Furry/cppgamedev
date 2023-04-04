@@ -26,4 +26,4 @@ class Level {
         void render(sf::RenderWindow* window);
         void renderAt(sf::RenderWindow* window, sf::Vector2f position);
 };
-#endif
+#endif  

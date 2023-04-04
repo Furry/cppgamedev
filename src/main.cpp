@@ -38,7 +38,7 @@ int main() {
     sprite.setTexture(*textures[0]);
 
     Player player = Player(&m);
-    player.stats.speed = 3; 
+    player.stats.speed = 6;
     int tally = 0;
     // int indx = 0;
     while (window.isOpen()) {
@@ -75,8 +75,6 @@ int main() {
         window.clear();
         player.update(tally);
 
-
-
         // Scale the sprite and draw it across the screen
         sprite.setScale(4, 4);
         sprite.setPosition(0, 0);
@@ -92,12 +90,6 @@ int main() {
         }
 
         player.render(&window);
-        // game.player->render(&window);
-    //     // Quit the app
-    //     // window.close();
-
-
-    //     // window.draw(sprite);
 
         window.display();
     //     tally += 1;

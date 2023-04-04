@@ -17,7 +17,6 @@ Player::Player(TextureManager *textureManager) {
     this->stats = createStats();
     // Create a new view for the player
     this->view = sf::View(sf::Vector2f(400, 400), sf::Vector2f(800, 800));
-
     // Print out the sprite manager
 
     // this->sprite.setTexture(*this->textureManager.getTexture("lofiChar", 15));
@@ -32,6 +31,11 @@ Player::~Player() {
 }
 
 void Player::update(int tick) {
+    if (tick == 1) {
+        std::cout << "Setting texture to 15" << std::endl;
+        this->sprite.setTexture(*this->textureManager.getTexture("lofiChar", 15));
+    }
+
     if (tick % 200 == 0) {
         // Set their texture to 31
         this->sprite.setTexture(*this->textureManager.getTexture("lofiChar", 31));

@@ -29,7 +29,7 @@ endif
 # Compiler and flags
 CXX = g++
 CXXFLAGS = -std=c++17 -Wall -Wextra -g $(INCLUDE_DIRS)
-LDFLAGS = $(LIB_DIRS) -lsfml-graphics -lsfml-window -lsfml-system
+LDFLAGS = $(LIB_DIRS) -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 
 # Source and target files
 OBJ = $(SRC:%.cpp=$(BUILDDIR)/%.o)
