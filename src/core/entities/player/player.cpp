@@ -30,7 +30,7 @@ Player::~Player() {
     // delete textures;
 }
 
-void Player::update(int tick) {
+void Player::update(int tick, Level level) {
     if (tick == 1) {
         std::cout << "Setting texture to 15" << std::endl;
         this->sprite.setTexture(*this->textureManager.getTexture("lofiChar", 15));

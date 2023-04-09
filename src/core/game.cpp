@@ -52,7 +52,7 @@ class Game {
             // Tick all entities
             // this->player->update(tickCount);
             for (auto &entity : this->entities) {
-                entity.second->update(tickCount);
+                // entity.second->update(tickCount);
             }
             tickCount++;
         }

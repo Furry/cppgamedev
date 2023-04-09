@@ -7,6 +7,9 @@
 #include "core/level/level.h"
 #include "libs/ticker.h"
 
+#include "core/level/crystalcave.cpp"
+#include "core/entities/enemy/ghost.cpp"
+
 using namespace std;
 
 int main() {
@@ -16,12 +19,18 @@ int main() {
     Game game(0);
 
     // Level lvl = Level("crystalCaveObjects8x8", {165, 166, 167, 168, 169}, sf::Vector2f(400, 400), 0);
+    // Create inline vector of ints
+    // std::vector<int> atlasIndices = (std::vector<int>) {165, 166, 167, 168, 169};
+    CrystalCave lvl = CrystalCave(0);
 
     TextureManager m = game.getTextureManager();
     m.load("crystalCaveObjects8x8", 8, 8);
     m.load("lofiChar", 8, 8);
 
-    game.start();
+    Ghost g = Ghost(&m);
+    lvl.addEntity(&g);
+    // game.start();
+    lvl.start();
 
     // Player player(charTextures);
 
@@ -73,7 +82,7 @@ int main() {
         window.setView(player.getView());
 
         window.clear();
-        player.update(tally);
+        player.update(tally, lvl);
 
         // Scale the sprite and draw it across the screen
         sprite.setScale(4, 4);
