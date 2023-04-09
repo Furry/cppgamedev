@@ -32,19 +32,19 @@ CXXFLAGS = -std=c++17 -Wall -Wextra -g $(INCLUDE_DIRS)
 LDFLAGS = $(LIB_DIRS) -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 
 # Source and target files
-OBJ = $(SRC:%.cpp=$(BUILDDIR)/%.o)
+OBJ = $(SRC:$(SRCDIR)/%.cpp=$(BUILDDIR)/%.o)
 TARGET = $(BUILDDIR)/MySFMLApp$(EXE_EXT)
 
 .PHONY: all clean run
 
-all: clean $(TARGET)
+all: $(TARGET)
 
 $(TARGET): $(OBJ)
 	@$(MKDIR) $(dir $@)
 	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)
 	@$(CP) ./$(STATICDIR) $(BUILDDIR)
 
-$(BUILDDIR)/%.o: %.cpp
+$(BUILDDIR)/%.o: $(SRCDIR)/%.cpp
 	@$(MKDIR) $(dir $@)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
