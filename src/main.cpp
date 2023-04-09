@@ -21,9 +21,10 @@ int main() {
     // Level lvl = Level("crystalCaveObjects8x8", {165, 166, 167, 168, 169}, sf::Vector2f(400, 400), 0);
     // Create inline vector of ints
     // std::vector<int> atlasIndices = (std::vector<int>) {165, 166, 167, 168, 169};
-    CrystalCave lvl = CrystalCave(0);
-
     TextureManager m = game.getTextureManager();
+    Player player = Player(&m);
+    CrystalCave lvl = CrystalCave(0, player);
+
     m.load("crystalCaveObjects8x8", 8, 8);
     m.load("lofiChar", 8, 8);
 
@@ -46,7 +47,6 @@ int main() {
     sf::Sprite sprite;
     sprite.setTexture(*textures[0]);
 
-    Player player = Player(&m);
     player.stats.speed = 6;
     int tally = 0;
     // int indx = 0;

@@ -9,7 +9,11 @@
 #include "../../modules/perlin.h"
 #include "../entities/object.h"
 #include "../entities/entity.h"
+// #include "../entities/player/player.h"
+
 #include <SFML/Graphics.hpp>
+
+class Player;
 
 class Level {
     private:
@@ -19,13 +23,17 @@ class Level {
         std::vector<int> atlasIndices;
         std::vector<Object> objects;
         // std::vector<Entity*> entities;
+        Player* player;
         int seed;
 
     public:
+        Level() {};
         void render(sf::RenderWindow* window);
         void renderAt(sf::RenderWindow* window, sf::Vector2f position);
         void start();
         void update(int tick);
         void stop();
+
+        Player getPlayer();
 };
 #endif

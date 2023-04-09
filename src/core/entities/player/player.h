@@ -24,7 +24,8 @@ class Player : public Entity {
         TextureManager textureManager;
     public:
         Player(TextureManager *textureManager);
-        ~Player();
+        Player() {}
+        ~Player() {};
         Stats stats;
         void update(int tick, Level level);
         void render(sf::RenderWindow* window);

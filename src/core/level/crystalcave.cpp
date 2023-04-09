@@ -1,7 +1,7 @@
 #include "level.h"
 #include "../../modules/perlin.h"
 #include "../entities/entity.h"
-
+#include "../entities/player/player.h"
 #include "../texturemanager.h"
 
 // Class CrystalCave inherits from Level
@@ -13,13 +13,14 @@ class CrystalCave : public Level {
         std::vector<int> atlasIndices;
         std::vector<Object> objects;
         std::vector<Entity*> entities;
+        Player player;
         int seed;
-
     public:
         TextureManager *textureManager;
 
-        CrystalCave(int seed) {
+        CrystalCave(int seed, Player player) {
             this->seed = seed;
+            this->player = player;
             this->perlin = Perlin(seed);
             this->atlasName = "crystalCaveObjects8x8";
             this->atlasIndices = {165, 166, 167, 168, 169};
@@ -45,7 +46,6 @@ class CrystalCave : public Level {
 
         void update(int tick) {
             // Print size of entities
-            std::cout << "Size of entities: " << entities.size() << std::endl;
             for (int i = 0; i < entities.size(); i++) {
                 entities[i]->update(tick, *this);
             }
@@ -53,5 +53,9 @@ class CrystalCave : public Level {
 
         void stop() {
             this->tickThread->join();
+        }
+
+        Player getPlayer() {
+            return this->player;
         }
 };

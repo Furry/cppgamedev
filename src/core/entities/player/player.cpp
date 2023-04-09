@@ -25,11 +25,6 @@ Player::Player(TextureManager *textureManager) {
     // this->sprite.setTexture(textureManager.getTexture("lofiChar", 15));
 }
 
-Player::~Player() {
-    // Clean up uwu
-    // delete textures;
-}
-
 void Player::update(int tick, Level level) {
     if (tick == 1) {
         std::cout << "Setting texture to 15" << std::endl;
