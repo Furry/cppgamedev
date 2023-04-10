@@ -90,3 +90,20 @@ void Player::move(Direction direction) {
             break;
     }
 }
+
+void Player::renderHud(sf::RenderWindow* window) {
+    // Draw the player's health
+    sf::RectangleShape healthBar;
+    sf::RectangleShape manaBar;
+
+    healthBar.setSize(sf::Vector2f(100, 10));
+    healthBar.setFillColor(sf::Color::Red);
+    healthBar.setPosition(this->position.x - 50, this->position.y - 50);
+
+    manaBar.setSize(sf::Vector2f(100, 10));
+    manaBar.setFillColor(sf::Color::Blue);
+    manaBar.setPosition(this->position.x - 50, this->position.y - 38);
+
+    window->draw(healthBar);
+    window->draw(manaBar);
+}

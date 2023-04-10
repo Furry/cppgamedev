@@ -29,6 +29,7 @@ class Player : public Entity {
         Stats stats;
         void update(int tick, Level level);
         void render(sf::RenderWindow* window);
+        void renderHud(sf::RenderWindow* window);
         void setPosition(sf::Vector2f position);
         sf::View getView();
         sf::Vector2f getPosition();

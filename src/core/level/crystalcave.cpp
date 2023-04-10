@@ -13,12 +13,12 @@ class CrystalCave : public Level {
         std::vector<int> atlasIndices;
         std::vector<Object> objects;
         std::vector<Entity*> entities;
-        Player player;
+        Player &player;
         int seed;
     public:
         TextureManager *textureManager;
 
-        CrystalCave(int seed, Player player) {
+        CrystalCave(int seed, Player &player) : player(player) {
             this->seed = seed;
             this->player = player;
             this->perlin = Perlin(seed);
@@ -55,7 +55,7 @@ class CrystalCave : public Level {
             this->tickThread->join();
         }
 
-        Player getPlayer() {
+        Player& getPlayer() {
             return this->player;
         }
 };

@@ -33,6 +33,11 @@ int main() {
     // game.start();
     lvl.start();
 
+
+    // Check if player and  lvl.getPlayer() are the same
+    std::cout << &player << std::endl;
+    Player p2 = lvl.getPlayer();
+
     // Player player(charTextures);
 
     Perlin perlin(4);
@@ -58,22 +63,26 @@ int main() {
                 window.close();
         }
 
-        // If w key is pressed
+        // The evolution of how player is accessed heh
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
             // player.setPosition(sf::Vector2f(player.getPosition().x, player.getPosition().y - 1));
-            player.move(Direction::UP);
+            // player.move(Direction::UP);
+            lvl.getPlayer().move(Direction::UP);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
             // player.setPosition(sf::Vector2f(player.getPosition().x, player.getPosition().y + 1));
-            player.move(Direction::DOWN);
+            // player.move(Direction::DOWN);
+            lvl.getPlayer().move(Direction::DOWN);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
             // player.setPosition(sf::Vector2f(player.getPosition().x - 1, player.getPosition().y));
-            player.move(Direction::LEFT);
+            // player.move(Direction::LEFT);
+            lvl.getPlayer().move(Direction::LEFT);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
             // player.setPosition(sf::Vector2f(player.getPosition().x + 1, player.getPosition().y));
-            player.move(Direction::RIGHT);
+            // player.move(Direction::RIGHT);
+            lvl.getPlayer().move(Direction::RIGHT);
         }
 
         // printf("Event: %d", event.type);
@@ -99,7 +108,7 @@ int main() {
         }
 
         player.render(&window);
-
+        player.renderHud(&window);
         window.display();
     //     tally += 1;
     }
