@@ -4,6 +4,7 @@
 
 #include "enemy.h"
 #include "../player/player.h"
+//#include "../../level/level.h"
 
 
 
@@ -37,7 +38,6 @@ class Ghost : public Enemy {
         }
 
         int distance() {
-            sf::Vector2f test = this->position;
             int xPlayerEnemyDist = this->position.x - this->player.getPosition().x;
             int yPlayerEnemyDist = this->position.y - this->player.getPosition().y;
             int playerEnemyDist = sqrt( (xPlayerEnemyDist)^2 + (yPlayerEnemyDist)^2 );
