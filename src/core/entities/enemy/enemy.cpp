@@ -8,7 +8,7 @@
 
 //Default stats
 
-
+/**
 Stats createStats(){
     return Stats {
         20, 20, 100, 100, 1, 1, 1, 1, 1, 1
@@ -43,7 +43,6 @@ int Enemy::distance(){
     return playerEnemyDist;
 }
 
-//TO-DO
 void Enemy::move(){
     
     //Enemy x coordinate movement in accordinate to player x pos
@@ -89,6 +88,6 @@ sf::Sprite Enemy::getSprite(){
 
 sf::Vector2f Enemy::getPosition(){
     return this->position;
-}
+}*/
 
 

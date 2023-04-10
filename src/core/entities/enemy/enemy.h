@@ -7,6 +7,7 @@
 #include "../entity.h"
 #include "../../texturemanager.h"
 #include "../../level/level.h"
+#include "../player/player.h"
 
 class Enemy : public Entity {
     private:
