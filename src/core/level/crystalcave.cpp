@@ -4,6 +4,7 @@
 #include "../entities/player/player.h"
 #include "../texturemanager.h"
 #include "../entities/enemy/ghost.cpp"
+#include "../entities/enemy/enemy.h"
 
 // Class CrystalCave inherits from Level
 class CrystalCave : public Level {
@@ -69,27 +70,34 @@ class CrystalCave : public Level {
 
         //When updating I should probably be checking if there are enough enemies and if there isn't
         //then I can just create more enemies 
-        void updateEnemies(int tick, TextureManager* m, sf::RenderWindow* window) {
+        void updateEnemies(int tick, TextureManager m, sf::RenderWindow* window) {
             // Print size of entities
             for (int i = 0; i < entities.size(); i++) {
                 entities[i]->update(tick, *this);
             }
-            spawnEnemies(m);
+            spawnEnemies(m, window);
             render(window);
         }
 
-        void spawnEnemies(TextureManager* m) {
+        void spawnEnemies(TextureManager m, sf::RenderWindow* window) {
 
             //Creates enemies while this is under the cap of enemies that should be near the player
             while( enemies.size() < 2) {
                 int enemySelection = (1 + rand() % 2);
+                float x = player.getPosition().x + rand() % 500;
+                float y = player.getPosition().y + random() % 500;
+                sf::Vector2f enemyPos = sf::Vector2f(x, y);
                 switch (enemySelection) {
                     case 1: {
-                        Ghost g = Ghost(m);
+                        Ghost g = Ghost(&m);
+                        g.setPosition(enemyPos);
+                        g.render(window);
+                        addEnemies(&g);
                         break; 
                     }
                     case 2: 
-                        int x = 4;  //Placeholder
+                        //Create another enemy class here for later.
+                        int x = 4;
                 }
 
             }

@@ -8,7 +8,7 @@
 #include "libs/ticker.h"
 
 #include "core/level/crystalcave.cpp"
-#include "core/entities/enemy/ghost.cpp"
+//#include "core/entities/enemy/ghost.cpp"
 
 using namespace std;
 
@@ -28,8 +28,8 @@ int main() {
     m.load("crystalCaveObjects8x8", 8, 8);
     m.load("lofiChar", 8, 8);
 
-    Ghost g = Ghost(&m);
-    lvl.addEntity(&g);
+    //Ghost g = Ghost(&m);
+    //lvl.addEnemies(&g);
     // game.start();
     lvl.start();
 
@@ -94,7 +94,7 @@ int main() {
         player.update(tally, lvl);
 
         //Update the level
-        lvl.updateEnemies(tally, &m, &window);  //Something being added here
+        lvl.updateEnemies(tally, m, &window);  //Something being added here
 
         // Scale the sprite and draw it across the screen
         sprite.setScale(4, 4);
