@@ -4,7 +4,8 @@
 
 #include "enemy.h"
 #include "../player/player.h"
-//#include "../../level/level.h"
+#include "../../level/level.h"
+//#include "../../level/crystalcave.cpp"
 
 
 
@@ -12,6 +13,7 @@ class Ghost : public Enemy {
     private:
         int id;
         sf::Sprite sprite;
+        TextureManager textureManager;
         Player player;
     public:
         Ghost(TextureManager *textureManager) {
@@ -23,8 +25,12 @@ class Ghost : public Enemy {
             std::cout << "Ghost destroyed" << std::endl;
         }
         
-        void update(int tick, Level level){
+        //For some reason this doesn't like me getting player from level, so I need to figure out why the reference
+        //point isn't working out.
+        void update(int tick, Level& level){
             this->player = level.getPlayer();
+            std::cout << "Setting texture for the ghost as demo" << std::endl;
+            this->sprite.setTexture(*this->textureManager.getTexture("lofiChar", 15));
         }
 
         void setPosition(sf::Vector2f position) {

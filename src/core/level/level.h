@@ -15,12 +15,6 @@
 
 class Player;
 
-
-//Implement enemy spawning w/ random
-//Add a cap to the amount of enemies
-//A spawn radius around the player for the enemy spawns
-//If there's below x amt of enemies then automatically spawn them w/o waiting for random check
-
 class Level {
     private:
         std::thread *tickThread;
@@ -39,6 +33,8 @@ class Level {
         void start();
         void update(int tick);
         void stop();
+        void addEnemies();
+        void spawnEnemies();
 
         Player getPlayer();
 };

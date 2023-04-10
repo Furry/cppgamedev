@@ -93,6 +93,9 @@ int main() {
         window.clear();
         player.update(tally, lvl);
 
+        //Update the level
+        lvl.updateEnemies(tally, &m, &window);  //Something being added here
+
         // Scale the sprite and draw it across the screen
         sprite.setScale(4, 4);
         sprite.setPosition(0, 0);
@@ -107,6 +110,7 @@ int main() {
             }
         }
 
+        //lvl.render(&window);
         player.render(&window);
         player.renderHud(&window);
         window.display();
