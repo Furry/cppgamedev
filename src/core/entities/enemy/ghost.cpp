@@ -16,10 +16,15 @@ class Ghost : public Enemy {
         TextureManager textureManager;
         Player player;
     public:
-        Ghost(TextureManager *textureManager) {
+        Ghost(TextureManager *textureManager, Player &player) {
             std::cout << "Ghost created" << std::endl;
             id = rand() % 1000;
-            //this->stats = {20, 20, 100, 100, 1, 1, 1, 1, 1, 1}
+            this->textureManager = *textureManager;
+            this->sprite = sf::Sprite();
+            this->sprite.setScale(5,5);
+            this->stats = {20, 20, 100, 100, 1, 1, 4, 1, 1, 1};
+            this->player = player;
+            //this->sprite.setTexture(*this->textureManager.getTexture("lofiChar", 15));
         }
         ~Ghost() {
             std::cout << "Ghost destroyed" << std::endl;
@@ -28,10 +33,12 @@ class Ghost : public Enemy {
         //For some reason this doesn't like me getting player from level, so I need to figure out why the reference
         //point isn't working out.
         //Initially fixed it w/ Level& level, not working now tho....
-        void update(int tick, Level& level){
-            std::cout << "Setting texture for the ghost as demo" << std::endl;
-            this->player = level.getPlayer();
-            this->sprite.setTexture(*this->textureManager.getTexture("lofiChar", 15));
+        void update(int tick, Level level){ 
+            //std::cout << "Setting texture for the ghost as demo" << std::endl; //this is working just fine, and is being called
+            //even in main and for the crystalcave.cpp
+            //this->player = level.getPlayer(); //I was trying to access the pointer to player through the level.h
+            //but it didn't work so I just decide to declare it within the levels itself.
+            this->sprite.setTexture(*this->textureManager.getTexture("lofiChar", 31));
         }
 
         void setPosition(sf::Vector2f position) {
@@ -53,7 +60,8 @@ class Ghost : public Enemy {
         }
 
         void move() {
-            
+            //Why isn't this working when its being called for ???
+            std::cout << "Ghost is doing something to try to move" << std::endl;
             //Enemy x coordinate movement in accordinate to player x pos
             if( this->position.x < player.getPosition().x ) {
                 this->position.x += this->stats.speed;
@@ -78,11 +86,14 @@ class Ghost : public Enemy {
 
         void attack(){
 
+            std::cout << "Ghost is activating the atk function" << std::endl;
+
             float def = player.stats.defense;
             int dmgRed = def / def + 100; //Damage reduction formula
             float luck = player.stats.luck;
 
             if( distance() < 3){
+                std::cout << "Ghost is within reach to atk the player and is currently trying to atk them" << std::endl;
                 if( (1 + rand() % 20) < luck) { //If player's luck is greater than they dodge the atk
                     int dmg = dmgRed * this->stats.strength;
                     player.stats.health -= dmg;

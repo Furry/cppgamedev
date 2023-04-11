@@ -10,9 +10,15 @@
 #include "core/level/crystalcave.cpp"
 //#include "core/entities/enemy/ghost.cpp"
 
+#include <sstream>
+
 using namespace std;
 
 int main() {
+
+    //This is just to test if I can display integers and strings
+    int testPrintIntBoard = 4;
+
     sf::RenderWindow window(sf::VideoMode(800, 800), "SFML works even better uwu!");
 
     // ! Create game instance
@@ -93,9 +99,6 @@ int main() {
         window.clear();
         player.update(tally, lvl);
 
-        //Update the level
-        lvl.updateEnemies(tally, m, &window);  //Something being added here
-        lvl.update(tally);
 
         // Scale the sprite and draw it across the screen
         sprite.setScale(4, 4);
@@ -111,11 +114,20 @@ int main() {
             }
         }
 
-        //lvl.render(&window);
+        sf::Text textTest;
+        std::stringstream ss; //#include <sstream>  https://en.sfml-dev.org/forums/index.php?topic=8368.0
+        ss << testPrintIntBoard;
+
+        textTest.setString( ss.str().c_str() );
+
+        window.draw( textTest );
+
+        lvl.updateEnemies(tally, m, &window);  //Something being added here
+        //lvl.enemyAI();
         player.render(&window);
         player.renderHud(&window);
         window.display();
-    //     tally += 1;
+        //tally += 1;
     }
 
     return 0;

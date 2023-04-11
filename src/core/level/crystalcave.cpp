@@ -74,13 +74,27 @@ class CrystalCave : public Level {
         //then I can just create more enemies 
         void updateEnemies(int tick, TextureManager m, sf::RenderWindow* window) {
             // Print size of entities
+            /**
             for (int i = 0; i < entities.size(); i++) {
                 entities[i]->update(tick, *this);
-            }
+            }*/
 
-            
+            //std::cout << "Is this even working after the 1st run through of it " << std::endl;
+
             spawnEnemies(m, window, tick);
+            update(tick);
+            enemyAI();
             render(window);
+        }
+
+        void enemyAI(){
+            //std::cout << "Is the enemy AI actually trying to call something or does it do jackshit" << std::endl;
+            for(int i = 0; i < enemies.size(); i++){
+                //std::cout << "Loop function somehow worked" << std::endl;
+                enemies[i]->move();
+                //std::cout << "This broke before attack" << std::endl;
+                enemies[i]->attack();
+            }
         }
 
         void spawnEnemies(TextureManager m, sf::RenderWindow* window, int tick) {
@@ -88,12 +102,12 @@ class CrystalCave : public Level {
             //Creates enemies while this is under the cap of enemies that should be near the player
             while( enemies.size() < 2) {
                 int enemySelection = (1 + rand() % 2);
-                float x = player.getPosition().x + rand() % 500;
-                float y = player.getPosition().y + random() % 500;
+                float x = player.getPosition().x + rand() % 250;
+                float y = player.getPosition().y + random() % 250;
                 sf::Vector2f enemyPos = sf::Vector2f(x, y);
                 switch (enemySelection) {
                     case 1: {
-                        Ghost *g = new Ghost(&m);
+                        Ghost *g = new Ghost(&m, this->player);
                         g->setPosition(enemyPos);
                         g->render(window);
                         //g->update(tick, *this);
@@ -117,5 +131,9 @@ class CrystalCave : public Level {
 
         Player& getPlayer() {
             return this->player;
+        }
+
+        std::vector<Enemy*> getEnemies() {
+            return this->enemies;
         }
 };
