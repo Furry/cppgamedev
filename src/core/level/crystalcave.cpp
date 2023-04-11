@@ -34,7 +34,8 @@ class CrystalCave : public Level {
             //Do nothing 
             //This is just for testing
             for (int i = 0; i < entities.size(); i++) {
-                entities[i]->render(window);
+                //entities[i]->render(window);
+                enemies[i]->render(window);
             }
         }
 
@@ -75,7 +76,13 @@ class CrystalCave : public Level {
             for (int i = 0; i < entities.size(); i++) {
                 entities[i]->update(tick, *this);
             }
+
+            
             spawnEnemies(m, window);
+            /**
+            for(int i = 0; i < enemies.size(); i++){
+                enemies[i]->update(tick, *this);
+            }*/
             render(window);
         }
 
