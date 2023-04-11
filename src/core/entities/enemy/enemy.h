@@ -29,7 +29,7 @@ class Enemy : public Entity {
         void randomHeaderTest(Level level) {};
 
         //Enemy movement
-        void move() {};
+        void eMove() {};
 
         //Enemy atk
         void attack() {};

@@ -59,7 +59,9 @@ class Ghost : public Enemy {
             return playerEnemyDist;
         }
 
-        void move() {
+        //void pMove(Direction direction) {};
+
+        void eMove(){
             //Why isn't this working when its being called for ???
             std::cout << "Ghost is doing something to try to move" << std::endl;
             //Enemy x coordinate movement in accordinate to player x pos
@@ -83,11 +85,14 @@ class Ghost : public Enemy {
             
         }
 
+        void pMove(Direction direction) {};
+
         //Why isn't this working even when I have something that should be keeping it in scope ???
         //It also has a parameter so that shouldn't be the issue...... Why does only update & render work ? 
         //Maybe cuz entity.h has both of them ???
+        //Okay figured it out, I needed the virtual void in entity for it to work
         void randomHeaderTest(Level level){
-            std::cout << "This was in the header and seems to be working" << std::endl;
+            //std::cout << "This was in the header and seems to be working" << std::endl;
         }
 
 

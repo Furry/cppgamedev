@@ -61,7 +61,9 @@ sf::Vector2f Player::getPosition() {
     return this->position;
 }
 
-void Player::move(Direction direction) {
+void Player::eMove() {};
+
+void Player::pMove(Direction direction){
     switch (direction) {
         case UP:
             this->position.y -= this->stats.speed;

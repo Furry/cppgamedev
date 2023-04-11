@@ -73,22 +73,22 @@ int main() {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
             // player.setPosition(sf::Vector2f(player.getPosition().x, player.getPosition().y - 1));
             // player.move(Direction::UP);
-            lvl.getPlayer().move(Direction::UP);
+            lvl.getPlayer().pMove(Direction::UP);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
             // player.setPosition(sf::Vector2f(player.getPosition().x, player.getPosition().y + 1));
             // player.move(Direction::DOWN);
-            lvl.getPlayer().move(Direction::DOWN);
+            lvl.getPlayer().pMove(Direction::DOWN);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
             // player.setPosition(sf::Vector2f(player.getPosition().x - 1, player.getPosition().y));
             // player.move(Direction::LEFT);
-            lvl.getPlayer().move(Direction::LEFT);
+            lvl.getPlayer().pMove(Direction::LEFT);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
             // player.setPosition(sf::Vector2f(player.getPosition().x + 1, player.getPosition().y));
             // player.move(Direction::RIGHT);
-            lvl.getPlayer().move(Direction::RIGHT);
+            lvl.getPlayer().pMove(Direction::RIGHT);
         }
 
         // printf("Event: %d", event.type);

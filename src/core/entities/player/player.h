@@ -36,7 +36,8 @@ class Player : public Entity {
         sf::Sprite getSprite();
 
         // Movement
-        void move(Direction direction);
+        void eMove();
+        void pMove(Direction direction) {};
 
         // Attack
         void attack();  //Maybe take in enemies within a certain direction ? Can I see which direction the player is looking at ???

@@ -105,7 +105,7 @@ class CrystalCave : public Level {
             //std::cout << "Is the enemy AI actually trying to call something or does it do jackshit" << std::endl;
             for(int i = 0; i < enemies.size(); i++){
                 //std::cout << "Loop function somehow worked" << std::endl;
-                enemies[i]->move();
+                enemies[i]->eMove();
                 //std::cout << "This broke before attack" << std::endl;
                 enemies[i]->attack();
 
