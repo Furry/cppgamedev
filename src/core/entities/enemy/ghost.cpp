@@ -85,7 +85,9 @@ class Ghost : public Enemy {
             
         }
 
-        void pMove(Direction direction) {};
+        void pMove(Direction direction) {
+            int x = 4;
+        }
 
         //Why isn't this working even when I have something that should be keeping it in scope ???
         //It also has a parameter so that shouldn't be the issue...... Why does only update & render work ? 

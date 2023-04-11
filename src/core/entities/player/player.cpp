@@ -61,7 +61,9 @@ sf::Vector2f Player::getPosition() {
     return this->position;
 }
 
-void Player::eMove() {};
+void Player::eMove() {
+    int x = 4;
+}
 
 void Player::pMove(Direction direction){
     switch (direction) {
@@ -91,6 +93,10 @@ void Player::pMove(Direction direction){
             this->sprite.setScale(6, 6);
             break;
     }
+}
+
+void Player::attack(){
+    int x = 5;
 }
 
 void Player::renderHud(sf::RenderWindow* window) {

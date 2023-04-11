@@ -8,12 +8,13 @@
 #include "../../texturemanager.h"
 #include "../../level/level.h"
 
+/**
 enum Direction {
     UP,
     DOWN,
     LEFT,
     RIGHT
-};
+};*/
 
 class Player : public Entity {
     private:
@@ -37,7 +38,7 @@ class Player : public Entity {
 
         // Movement
         void eMove();
-        void pMove(Direction direction) {};
+        void pMove(Direction direction);
 
         // Attack
         void attack();  //Maybe take in enemies within a certain direction ? Can I see which direction the player is looking at ???

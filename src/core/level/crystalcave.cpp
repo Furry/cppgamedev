@@ -109,7 +109,7 @@ class CrystalCave : public Level {
                 //std::cout << "This broke before attack" << std::endl;
                 enemies[i]->attack();
 
-                enemies[i]->randomHeaderTest(*this);
+                //enemies[i]->randomHeaderTest(*this);
             }
         }
 

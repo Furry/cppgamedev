@@ -4,7 +4,15 @@
 #include <SFML/Graphics.hpp>
 
 // #include "../level/level.h"
+
 class Level;
+
+enum Direction {
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT
+};
 
 struct Stats {
     int health;

@@ -9,6 +9,7 @@
 #include "../../level/level.h"
 #include "../player/player.h"
 
+
 class Enemy : public Entity {
     private:
         int textureIndex = 0;
@@ -17,6 +18,9 @@ class Enemy : public Entity {
         TextureManager textureManager;
         Player player;
     public:
+        Enemy(TextureManager *textureManager, Player &player);
+        Enemy();
+        ~Enemy() {};
         Stats stats;
         sf::Vector2f position;
         void update(int tick, Level level) {};
@@ -26,12 +30,13 @@ class Enemy : public Entity {
         sf::Sprite getSprite() {};
         sf::Vector2f getPosition() {};
 
-        void randomHeaderTest(Level level) {};
+        //void randomHeaderTest(Level level) {};
 
         //Enemy movement
-        void eMove() {};
+        void eMove();
+        void pMove(Direction direction);
 
         //Enemy atk
-        void attack() {};
+        void attack();
 };
 #endif
