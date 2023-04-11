@@ -42,6 +42,7 @@ class Ghost : public Enemy {
         }
 
         void setPosition(sf::Vector2f position) {
+            //Setting the position of the sprite when its drawn.
             this->position = position;
             this->sprite.setPosition(position);
         }
@@ -50,6 +51,13 @@ class Ghost : public Enemy {
             //std::cout << "Ghost is rendering" << std::endl;
             this->sprite.setPosition(this->position);
             window->draw(this->sprite);
+
+            //Enemy hp bar
+            sf::RectangleShape healthBar;
+            healthBar.setSize(sf::Vector2f(100, 10));
+            healthBar.setFillColor(sf::Color::Red);
+            healthBar.setPosition(this->position.x - 50, this->position.y - 50);
+            window->draw(healthBar);
         }
 
         int distance() {
@@ -59,7 +67,7 @@ class Ghost : public Enemy {
             return playerEnemyDist;
         }
 
-        //void pMove(Direction direction) {};
+        void pMove(Direction direction) {};
 
         void eMove(){
             //Why isn't this working when its being called for ???
@@ -83,10 +91,6 @@ class Ghost : public Enemy {
                 this->position.y -= this->stats.speed;
             }//Should be an else here but it'll do nothing as the playere & enemy y coordinates match and no movement needs to be done
             
-        }
-
-        void pMove(Direction direction) {
-            int x = 4;
         }
 
         //Why isn't this working even when I have something that should be keeping it in scope ???

@@ -30,6 +30,7 @@ struct Stats {
 class Entity {
     public:
         Entity() {};
+        //virtual ~Entity() {};
         virtual void update(int tick, Level level) = 0;
         virtual void render(sf::RenderWindow* window) = 0;
 
