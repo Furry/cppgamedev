@@ -114,6 +114,14 @@ int main() {
             }
         }
 
+        /** pt board
+        sf::RectangleShape board;
+        board.setSize( sf::Vector2f(200, 150) );
+        board.setFillColor( sf::Color::Black);
+        board.setPosition( lvl.getPlayer().getPosition().x + 300, lvl.getPlayer().getPosition().y - 400);
+        window.draw(board);*/
+
+
         sf::Text textTest;
         std::stringstream ss; //#include <sstream>  https://en.sfml-dev.org/forums/index.php?topic=8368.0
         ss << testPrintIntBoard;

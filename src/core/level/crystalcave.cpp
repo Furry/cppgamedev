@@ -36,6 +36,8 @@ class CrystalCave : public Level {
             for (int i = 0; i < enemies.size(); i++) {
                 //entities[i]->render(window);
                 enemies[i]->render(window);
+                //enemies[i]->randomHeaderTest();
+                //enemies[i]->move();
             }
         }
 
@@ -83,17 +85,31 @@ class CrystalCave : public Level {
 
             spawnEnemies(m, window, tick);
             update(tick);
-            enemyAI();
+            enemyAI(tick);
             render(window);
+
+            
         }
 
-        void enemyAI(){
+
+        //Maybe a parameter needs to be called even if it has nothing to do w/ the functions inside of it 
+        //so it doesn't fall out of scope or something like that ????
+        void enemyAI(int tick){
+
+            //From the tests done on this so far, I've determined that the loop works and there's definitely something going on 
+            //because the print functions work, but whenever I try to call a function to one of the enemies[i], then it doesn't work
+            //and nothing is called when the function is meant to be called ??? Idky the print func isn't working or the function in general.
+            //Sobbing, I hate working on code at almost 3am, I should've gotten tipsy and slammed energy drinks altho they do nothing anymore.
+
+
             //std::cout << "Is the enemy AI actually trying to call something or does it do jackshit" << std::endl;
             for(int i = 0; i < enemies.size(); i++){
                 //std::cout << "Loop function somehow worked" << std::endl;
                 enemies[i]->move();
                 //std::cout << "This broke before attack" << std::endl;
                 enemies[i]->attack();
+
+                enemies[i]->randomHeaderTest(*this);
             }
         }
 

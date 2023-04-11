@@ -83,6 +83,13 @@ class Ghost : public Enemy {
             
         }
 
+        //Why isn't this working even when I have something that should be keeping it in scope ???
+        //It also has a parameter so that shouldn't be the issue...... Why does only update & render work ? 
+        //Maybe cuz entity.h has both of them ???
+        void randomHeaderTest(Level level){
+            std::cout << "This was in the header and seems to be working" << std::endl;
+        }
+
 
         void attack(){
 

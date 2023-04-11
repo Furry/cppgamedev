@@ -27,5 +27,8 @@ class Entity {
 
         virtual void setPosition(sf::Vector2f position) = 0;
         virtual sf::Vector2f getPosition() = 0;
+        
+        //Could create a random test to see if that's the case, but seems like it would take too much work....
+        //Also player doesn't even have that for the movements
 };
 #endif

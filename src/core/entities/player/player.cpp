@@ -106,4 +106,11 @@ void Player::renderHud(sf::RenderWindow* window) {
 
     window->draw(healthBar);
     window->draw(manaBar);
+
+    //Draw's pt board
+    sf::RectangleShape board;
+    board.setSize( sf::Vector2f(200, 150) );
+    board.setFillColor( sf::Color::Black);
+    board.setPosition( this->position.x + 290, this->position.y - 400);
+    window->draw(board);
 }
