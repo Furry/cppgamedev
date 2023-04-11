@@ -20,7 +20,7 @@ class Enemy : public Entity {
         TextureManager textureManager;
         Player player;
     public:
-        Enemy(TextureManager *textureManager, Player &player);
+        Enemy(TextureManager *textureManager, Player *player);
         Enemy() {};
         ~Enemy() {};
         Stats stats;

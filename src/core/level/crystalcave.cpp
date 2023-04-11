@@ -21,9 +21,9 @@ class CrystalCave : public Level {
     public:
         TextureManager *textureManager;
 
-        CrystalCave(int seed, Player &player) : player(player) {
+        CrystalCave(int seed, Player *player) : player(*player) {
             this->seed = seed;
-            this->player = player;
+            this->player = *player;
             this->perlin = Perlin(seed);
             this->atlasName = "crystalCaveObjects8x8";
             this->atlasIndices = {165, 166, 167, 168, 169};
@@ -123,7 +123,7 @@ class CrystalCave : public Level {
                 sf::Vector2f enemyPos = sf::Vector2f(x, y);
                 switch (enemySelection) {
                     case 1: {
-                        Ghost *g = new Ghost(&m, this->player);
+                        Ghost *g = new Ghost(&m, &this->player);
                         g->setPosition(enemyPos);
                         g->render(window);
                         //g->update(tick, *this);

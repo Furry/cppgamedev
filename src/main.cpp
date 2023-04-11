@@ -29,7 +29,7 @@ int main() {
     // std::vector<int> atlasIndices = (std::vector<int>) {165, 166, 167, 168, 169};
     TextureManager m = game.getTextureManager();
     Player player = Player(&m);
-    CrystalCave lvl = CrystalCave(0, player);
+    CrystalCave lvl = CrystalCave(0, &player);
 
     m.load("crystalCaveObjects8x8", 8, 8);
     m.load("lofiChar", 8, 8);

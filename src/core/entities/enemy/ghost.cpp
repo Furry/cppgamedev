@@ -14,16 +14,16 @@ class Ghost : public Enemy {
         int id;
         sf::Sprite sprite;
         TextureManager textureManager;
-        Player player;
+        Player &player;
     public:
-        Ghost(TextureManager *textureManager, Player &player) {
+        Ghost(TextureManager *textureManager, Player* player) : player(*player) {
             std::cout << "Ghost created" << std::endl;
             id = rand() % 1000;
             this->textureManager = *textureManager;
             this->sprite = sf::Sprite();
             this->sprite.setScale(5,5);
             this->stats = {20, 20, 100, 100, 1, 1, 4, 1, 1, 1};
-            this->player = player;
+            this->player = *player;
             //this->sprite.setTexture(*this->textureManager.getTexture("lofiChar", 15));
         }
         ~Ghost() {
