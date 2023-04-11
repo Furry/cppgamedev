@@ -18,9 +18,9 @@ class Enemy : public Entity {
         TextureManager textureManager;
         Player player;
     public:
-        Enemy(TextureManager *textureManager, Player &player);
-        Enemy();
-        ~Enemy() {};
+        //Enemy(TextureManager *textureManager, Player &player);
+        //Enemy() {};
+        //virtual ~Enemy() {};
         Stats stats;
         sf::Vector2f position;
         void update(int tick, Level level) {};
