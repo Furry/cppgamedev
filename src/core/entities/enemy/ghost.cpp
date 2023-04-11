@@ -27,9 +27,10 @@ class Ghost : public Enemy {
         
         //For some reason this doesn't like me getting player from level, so I need to figure out why the reference
         //point isn't working out.
+        //Initially fixed it w/ Level& level, not working now tho....
         void update(int tick, Level& level){
-            this->player = level.getPlayer();
             std::cout << "Setting texture for the ghost as demo" << std::endl;
+            this->player = level.getPlayer();
             this->sprite.setTexture(*this->textureManager.getTexture("lofiChar", 15));
         }
 
@@ -39,6 +40,7 @@ class Ghost : public Enemy {
         }
 
         void render(sf::RenderWindow* window) {
+            //std::cout << "Ghost is rendering" << std::endl;
             this->sprite.setPosition(this->position);
             window->draw(this->sprite);
         }

@@ -33,7 +33,7 @@ class CrystalCave : public Level {
         void render(sf::RenderWindow* window) {
             //Do nothing 
             //This is just for testing
-            for (int i = 0; i < entities.size(); i++) {
+            for (int i = 0; i < enemies.size(); i++) {
                 //entities[i]->render(window);
                 enemies[i]->render(window);
             }
@@ -63,8 +63,9 @@ class CrystalCave : public Level {
 
         void update(int tick){
             // Print size of entities
-            for (int i = 0; i < entities.size(); i++) {
-                entities[i]->update(tick, *this);
+            for (int i = 0; i < enemies.size(); i++) {
+                //entities[i]->update(tick, *this);
+                enemies[i]->update(tick, *this);
             }
         }
 
@@ -78,15 +79,11 @@ class CrystalCave : public Level {
             }
 
             
-            spawnEnemies(m, window);
-            /**
-            for(int i = 0; i < enemies.size(); i++){
-                enemies[i]->update(tick, *this);
-            }*/
+            spawnEnemies(m, window, tick);
             render(window);
         }
 
-        void spawnEnemies(TextureManager m, sf::RenderWindow* window) {
+        void spawnEnemies(TextureManager m, sf::RenderWindow* window, int tick) {
 
             //Creates enemies while this is under the cap of enemies that should be near the player
             while( enemies.size() < 2) {
@@ -96,10 +93,11 @@ class CrystalCave : public Level {
                 sf::Vector2f enemyPos = sf::Vector2f(x, y);
                 switch (enemySelection) {
                     case 1: {
-                        Ghost g = Ghost(&m);
-                        g.setPosition(enemyPos);
-                        g.render(window);
-                        addEnemies(&g);
+                        Ghost *g = new Ghost(&m);
+                        g->setPosition(enemyPos);
+                        g->render(window);
+                        //g->update(tick, *this);
+                        addEnemies(g);
                         break; 
                     }
                     case 2: 

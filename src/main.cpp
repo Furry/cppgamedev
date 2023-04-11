@@ -95,6 +95,7 @@ int main() {
 
         //Update the level
         lvl.updateEnemies(tally, m, &window);  //Something being added here
+        lvl.update(tally);
 
         // Scale the sprite and draw it across the screen
         sprite.setScale(4, 4);
