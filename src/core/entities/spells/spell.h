@@ -15,7 +15,7 @@ class Spell {
         Spell() {};
         ~Spell() {};
         void render(sf::RenderWindow* window);
-        void update(int tick, Level level) ;
+        virtual void update(int tick, Level level) = 0;
 };
 
 #endif
