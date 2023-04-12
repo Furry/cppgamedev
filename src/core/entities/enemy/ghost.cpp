@@ -24,11 +24,9 @@ class Ghost : public Enemy {
             this->sprite.setScale(5,5);
             this->stats = {20, 20, 100, 100, 1, 1, 4, 1, 1, 1};
             this->player = *player;
-            //this->sprite.setTexture(*this->textureManager.getTexture("lofiChar", 15));
         }
         ~Ghost() {
             std::cout << "Ghost destroyed" << std::endl;
-            //Maybe add player pts once this is deconstructed 
             this->player.pts += 1;
         }
         
@@ -40,7 +38,8 @@ class Ghost : public Enemy {
             //even in main and for the crystalcave.cpp
             //this->player = level.getPlayer(); //I was trying to access the pointer to player through the level.h
             //but it didn't work so I just decide to declare it within the levels itself.
-            this->sprite.setTexture(*this->textureManager.getTexture("lofiChar", 31));
+            //this->sprite.setTexture(*this->textureManager.getTexture("lofiChar", 31));
+            this->sprite.setTexture(*this->textureManager.getTexture("chars8x8dEncounters", 350));
 
             //Maybe implement something here to see if the enemies health is 0, and if it is then deconstruct the class
             if( this->stats.health == 0){
@@ -108,9 +107,9 @@ class Ghost : public Enemy {
             int dmgRed = def / def + 100; //Damage reduction formula
             float luck = player.stats.luck;
 
-            if( distance() < 3){
+            if( distance() < 3){ //Also add modulo tick eventually ig, add 3x longer modulo for ranged enemies 
                 //std::cout << "Ghost is within reach to atk the player and is currently trying to atk them" << std::endl;
-                if( (1 + rand() % 20) > luck) { //If player's luck is greater than they dodge the atk
+                if( (1 + rand() % 30) > luck) { //If player's luck is greater than they dodge the atk, max player luck is 20
                     //std::cout << "Ghost passed luck check and attacking player" << std::endl;
                     int dmg = dmgRed * this->stats.strength;
                     if(dmg < 1){
