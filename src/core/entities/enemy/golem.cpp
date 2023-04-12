@@ -41,7 +41,7 @@ class Golem : public Enemy {
             //even in main and for the crystalcave.cpp
             //this->player = level.getPlayer(); //I was trying to access the pointer to player through the level.h
             //but it didn't work so I just decide to declare it within the levels itself.
-            this->sprite.setTexture(*this->textureManager.getTexture("lofiChar", 15));
+            this->sprite.setTexture(*this->textureManager.getTexture("chars8x8dEncounters", 364));
 
             //Maybe implement something here to see if the enemies health is 0, and if it is then deconstruct the class
             if( this->stats.health == 0){
@@ -121,7 +121,7 @@ class Golem : public Enemy {
             if( distance() < 3){
                 //std::cout << "Ghost is within reach to atk the player and is currently trying to atk them" << std::endl;
                 if( (1 + rand() % 20) > luck) { //If player's luck is greater than they dodge the atk
-                    std::cout << "Ghost passed luck check and attacking player" << std::endl;
+                    //std::cout << "Golem passed luck check and attacking player" << std::endl;
                     int dmg = dmgRed * this->stats.strength;
                     if(dmg < 1){
                         dmg = 1;
