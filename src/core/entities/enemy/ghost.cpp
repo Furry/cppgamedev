@@ -59,11 +59,37 @@ class Ghost : public Enemy {
             window->draw(this->sprite);
 
             //Enemy hp bar
-            sf::RectangleShape healthBar;
-            healthBar.setSize(sf::Vector2f(100, 10));
+
+            int currentHealth = this->stats.health;
+            int maxHealth = this->stats.maxHealth;
+            
+            int xpos = this->position.x;
+            int ypos = this->position.y;
+
+            float healthPercent = static_cast<float>(currentHealth) / maxHealth;
+
+            sf::Vector2f healthBarSize(75, 6);
+
+            sf::RectangleShape healthBarOuter(healthBarSize + sf::Vector2f(2, 2));
+            healthBarOuter.setFillColor(sf::Color::Transparent);
+            healthBarOuter.setOutlineColor(sf::Color::Black);
+            healthBarOuter.setOutlineThickness(1);
+            healthBarOuter.setPosition(xpos - healthBarSize.x / 2, ypos + 55);
+
+            sf::RectangleShape healthBar(healthBarSize);
             healthBar.setFillColor(sf::Color::Red);
-            healthBar.setPosition(this->position.x - 50, this->position.y - 50);
+            healthBar.setSize(sf::Vector2f(healthBarSize.x * healthPercent, healthBarSize.y));
+            healthBar.setPosition(xpos - healthBarSize.x / 2 + 1, ypos + 55 + 1);
+
+            sf::Text healthText;    
+            healthText.setString(std::to_string(static_cast<int>(healthPercent * 100)) + "%");
+            healthText.setCharacterSize(10);
+            healthText.setFillColor(sf::Color::White);
+            healthText.setPosition(xpos - healthText.getLocalBounds().width / 2, ypos + 50 + 2);
+
+            window->draw(healthBarOuter);
             window->draw(healthBar);
+            window->draw(healthText);
         }
 
         int distance() {
