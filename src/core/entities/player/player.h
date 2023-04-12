@@ -28,6 +28,7 @@ class Player : public Entity {
         Player() {}
         ~Player() {};
         Stats stats;
+        int pts = 0;
         void update(int tick, Level level);
         void render(sf::RenderWindow* window);
         void renderHud(sf::RenderWindow* window);
