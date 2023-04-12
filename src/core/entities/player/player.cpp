@@ -92,18 +92,58 @@ void Player::move(Direction direction) {
 }
 
 void Player::renderHud(sf::RenderWindow* window) {
-    // Draw the player's health
-    sf::RectangleShape healthBar;
-    sf::RectangleShape manaBar;
+    int currentHealth = this->stats.health;
+    int maxHealth = this->stats.maxHealth;
 
-    healthBar.setSize(sf::Vector2f(100, 10));
+    int currentMana = this->stats.mana;
+    int maxMana = this->stats.maxMana;
+    int xpos = this->position.x;
+    int ypos = this->position.y;
+
+    float healthPercent = static_cast<float>(currentHealth) / maxHealth;
+    float manaPercent = static_cast<float>(currentMana) / maxMana;
+
+    sf::Vector2f healthBarSize(75, 6);
+    sf::Vector2f manaBarSize(75, 6);
+
+    sf::RectangleShape healthBarOuter(healthBarSize + sf::Vector2f(2, 2));
+    healthBarOuter.setFillColor(sf::Color::Transparent);
+    healthBarOuter.setOutlineColor(sf::Color::Black);
+    healthBarOuter.setOutlineThickness(1);
+    healthBarOuter.setPosition(xpos - healthBarSize.x / 2, ypos + 55);
+
+    sf::RectangleShape healthBar(healthBarSize);
     healthBar.setFillColor(sf::Color::Red);
-    healthBar.setPosition(this->position.x - 50, this->position.y - 50);
+    healthBar.setSize(sf::Vector2f(healthBarSize.x * healthPercent, healthBarSize.y));
+    healthBar.setPosition(xpos - healthBarSize.x / 2 + 1, ypos + 55 + 1);
 
-    manaBar.setSize(sf::Vector2f(100, 10));
+    sf::RectangleShape manaBarOuter(manaBarSize + sf::Vector2f(2, 2));
+    manaBarOuter.setFillColor(sf::Color::Transparent);
+    manaBarOuter.setOutlineColor(sf::Color::Black);
+    manaBarOuter.setOutlineThickness(1);
+    manaBarOuter.setPosition(xpos - manaBarSize.x / 2, ypos + healthBarSize.y + 60);
+
+    sf::RectangleShape manaBar(manaBarSize);
     manaBar.setFillColor(sf::Color::Blue);
-    manaBar.setPosition(this->position.x - 50, this->position.y - 38);
+    manaBar.setSize(sf::Vector2f(manaBarSize.x * manaPercent, manaBarSize.y));
+    manaBar.setPosition(xpos - manaBarSize.x / 2 + 1, ypos + healthBarSize.y + 61);
 
+
+    // sf::Font font;
+    // if (!font.loadFromFile("path/to/font.ttf")) {
+    //     // Handle font loading error
+    // }
+
+    sf::Text healthText;
+    // healthText.setFont(font);
+    healthText.setString(std::to_string(static_cast<int>(healthPercent * 100)) + "%");
+    healthText.setCharacterSize(10);
+    healthText.setFillColor(sf::Color::White);
+    healthText.setPosition(xpos - healthText.getLocalBounds().width / 2, ypos + 50 + 2);
+
+    window->draw(healthBarOuter);
     window->draw(healthBar);
+    window->draw(manaBarOuter);
     window->draw(manaBar);
+    window->draw(healthText);
 }
