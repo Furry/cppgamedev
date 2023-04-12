@@ -38,7 +38,7 @@ class Level {
         void stop();
         void addEnemies();
         void spawnEnemies();
-
+    
         void addSpell(Spell *spell);
         void nova(sf::Vector2f position);
         Player getPlayer();

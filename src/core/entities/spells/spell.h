@@ -14,7 +14,7 @@ class Spell {
         Spell(sf::Vector2f position);
         Spell() {};
         ~Spell() {};
-        void render(sf::RenderWindow* window);
+        virtual void render(sf::RenderWindow* window) = 0;
         virtual void update(int tick, Level level) = 0;
 };
 

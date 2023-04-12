@@ -44,6 +44,10 @@ class CrystalCave : public Level {
                 //enemies[i]->randomHeaderTest();
                 //enemies[i]->move();
             }
+
+            for (int i = 0; i < spells.size(); i++) {
+                spells[i]->render(window);
+            }
         }
 
         void renderAt(sf::RenderWindow* window, sf::Vector2f position);
@@ -83,7 +87,6 @@ class CrystalCave : public Level {
                 spells[i]->update(tick, *this);
             }
         }
-
 
         //When updating I should probably be checking if there are enough enemies and if there isn't
         //then I can just create more enemies 

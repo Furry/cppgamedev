@@ -94,6 +94,9 @@ int main() {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
             // Get position of mouse relative to window
             sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+            // turn it inito 2f
+            sf::Vector2f mousePos2f = sf::Vector2f(mousePos.x, mousePos.y);
+
             // Get position of mouse relative to player
             sf::Vector2f mousePosPlayer = window.mapPixelToCoords(mousePos, player.getView());
             // lvl.getPlayer().castDefaultSpell(mousePosPlayer, &lvl);
