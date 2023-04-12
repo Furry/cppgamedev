@@ -1,3 +1,4 @@
+
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <cmath>
@@ -9,15 +10,15 @@
 
 
 
-class Ghost : public Enemy {
+class Golem : public Enemy {
     private:
         int id;
         sf::Sprite sprite;
         TextureManager textureManager;
         Player &player;
     public:
-        Ghost(TextureManager *textureManager, Player* player) : player(*player) {
-            std::cout << "Ghost created" << std::endl;
+        Golem(TextureManager *textureManager, Player* player) : player(*player) {
+            std::cout << "Golem created" << std::endl;
             id = rand() % 1000;
             this->textureManager = *textureManager;
             this->sprite = sf::Sprite();
@@ -26,8 +27,8 @@ class Ghost : public Enemy {
             this->player = *player;
             //this->sprite.setTexture(*this->textureManager.getTexture("lofiChar", 15));
         }
-        ~Ghost() {
-            std::cout << "Ghost destroyed" << std::endl;
+        ~Golem() {
+            std::cout << "Golem destroyed" << std::endl;
             //Maybe add player pts once this is deconstructed 
             this->player.pts += 1;
         }
@@ -40,7 +41,7 @@ class Ghost : public Enemy {
             //even in main and for the crystalcave.cpp
             //this->player = level.getPlayer(); //I was trying to access the pointer to player through the level.h
             //but it didn't work so I just decide to declare it within the levels itself.
-            this->sprite.setTexture(*this->textureManager.getTexture("lofiChar", 31));
+            this->sprite.setTexture(*this->textureManager.getTexture("lofiChar", 15));
 
             //Maybe implement something here to see if the enemies health is 0, and if it is then deconstruct the class
             if( this->stats.health == 0){
@@ -100,6 +101,15 @@ class Ghost : public Enemy {
             
         }
 
+        //Why isn't this working even when I have something that should be keeping it in scope ???
+        //It also has a parameter so that shouldn't be the issue...... Why does only update & render work ? 
+        //Maybe cuz entity.h has both of them ???
+        //Okay figured it out, I needed the virtual void in entity for it to work
+        void randomHeaderTest(Level level){
+            //std::cout << "This was in the header and seems to be working" << std::endl;
+        }
+
+
         void attack(){
 
             //std::cout << "Ghost is activating the atk function" << std::endl;
@@ -111,13 +121,12 @@ class Ghost : public Enemy {
             if( distance() < 3){
                 //std::cout << "Ghost is within reach to atk the player and is currently trying to atk them" << std::endl;
                 if( (1 + rand() % 20) > luck) { //If player's luck is greater than they dodge the atk
-                    //std::cout << "Ghost passed luck check and attacking player" << std::endl;
+                    std::cout << "Ghost passed luck check and attacking player" << std::endl;
                     int dmg = dmgRed * this->stats.strength;
                     if(dmg < 1){
                         dmg = 1;
                     }
                     this->player.stats.health -= dmg;
-                    //std::cout << "This is the player's health " << this->player.stats.health << std::endl;
                 }
             }
             
