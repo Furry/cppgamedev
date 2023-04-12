@@ -33,6 +33,7 @@ int main() {
 
     m.load("crystalCaveObjects8x8", 8, 8);
     m.load("lofiChar", 8, 8);
+    m.load("chars8x8dEncounters", 8, 8);
 
     //Ghost g = Ghost(&m);
     //lvl.addEnemies(&g);
