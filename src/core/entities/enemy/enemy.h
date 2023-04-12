@@ -40,5 +40,7 @@ class Enemy : public Entity {
 
         //Enemy atk
         void attack() {};
+
+        // Other accessors
 };
 #endif

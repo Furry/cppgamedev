@@ -88,6 +88,14 @@ class CrystalCave : public Level {
                 if (spells[i]->isDead()) {
                     spells.erase(spells.begin() + i);
                 } else {
+
+                    // Check if there's an enemy in the spell's radius
+                    for (int j = 0; j < enemies.size(); j++) {
+                        Enemy *enemy = enemies[j];
+                        if (spells[i]->doesCollide(enemy->getPosition())) {
+                            enemy->stats.health -= 1;
+                        }
+                    }
                     spells[i]->update(tick, *this);
                 }
             }
@@ -182,6 +190,11 @@ class CrystalCave : public Level {
         std::vector<Spell*> getSpells() {
             return this->spells;
         }
+
+        void damageInRadius(sf::Vector2f position, int radius, int damage) {
+            std::cout << "Damage in radius called" << std::endl;
+        }
+
 
         void nova(sf::Vector2f position) {
             Nova *n = new Nova(position);

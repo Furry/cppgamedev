@@ -25,7 +25,7 @@ class Level {
         std::string atlasName;
         std::vector<int> atlasIndices;
         std::vector<Object> objects;
-        // std::vector<Entity*> entities;
+        std::vector<Entity*> entities;
         Player* player;
         int seed;
 
@@ -41,6 +41,8 @@ class Level {
     
         void addSpell(Spell *spell);
         void nova(sf::Vector2f position);
+
+        void damageInRadius(sf::Vector2f position, int radius, int damage);
         Player getPlayer();
 };
 #endif
