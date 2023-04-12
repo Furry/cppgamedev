@@ -64,11 +64,11 @@ int main() {
     // int indx = 0;
     while (window.isOpen()) {
         tally++;
-        sf::Event event;
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
+        // sf::Event event;
+        // while (window.pollEvent(event)) {
+        //     if (event.type == sf::Event::Closed)
+        //         window.close();
+        // }
 
         // The evolution of how player is accessed heh
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
@@ -148,6 +148,9 @@ int main() {
         player.renderHud(&window);
         window.display();
         //tally += 1;
+
+        // 60 fps
+        sf::sleep(sf::milliseconds(16));
     }
 
     return 0;
