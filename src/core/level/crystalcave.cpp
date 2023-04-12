@@ -6,6 +6,7 @@
 #include "../entities/enemy/ghost.cpp"
 #include "../entities/enemy/golem.cpp"
 #include "../entities/enemy/enemy.h"
+#include "../entities/spells/nova.cpp"
 
 // Class CrystalCave inherits from Level
 class CrystalCave : public Level {
@@ -17,6 +18,8 @@ class CrystalCave : public Level {
         std::vector<Object> objects;
         std::vector<Entity*> entities;
         std::vector<Enemy*> enemies;
+        std::vector<Spell*> spells;
+
         Player &player;
         int seed;
     public:
@@ -69,6 +72,10 @@ class CrystalCave : public Level {
             for (int i = 0; i < enemies.size(); i++) {
                 //entities[i]->update(tick, *this);
                 enemies[i]->update(tick, *this);
+            }
+
+            for (int i = 0; i < spells.size(); i++) {
+                spells[i]->update(tick, *this);
             }
         }
 
@@ -157,5 +164,14 @@ class CrystalCave : public Level {
 
         std::vector<Enemy*> getEnemies() {
             return this->enemies;
+        }
+
+        std::vector<Spell*> getSpells() {
+            return this->spells;
+        }
+
+        void nova(sf::Vector2f position) {
+            Nova *n = new Nova(position);
+            this->spells.push_back(n);
         }
 };

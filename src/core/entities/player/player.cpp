@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "player.h"
+#include "../spells/nova.cpp"
 #include <iostream>
 
 // add default
@@ -93,6 +94,16 @@ void Player::pMove(Direction direction){
             this->sprite.setScale(6, 6);
             break;
     }
+}
+
+void Player::damage(int amount) {
+    this->stats.health -= amount;
+
+    if (this->stats.health <= 0) {
+        this->stats.health = 0;
+    }
+
+    std::cout << "Player Killed!" << std::endl;
 }
 
 void Player::attack(){

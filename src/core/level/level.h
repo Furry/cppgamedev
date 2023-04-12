@@ -9,6 +9,8 @@
 #include "../../modules/perlin.h"
 #include "../entities/object.h"
 #include "../entities/entity.h"
+#include "../entities/spells/spell.h"
+
 // #include "../entities/player/player.h"
 
 #include <SFML/Graphics.hpp>
@@ -36,6 +38,8 @@ class Level {
         void addEnemies();
         void spawnEnemies();
 
+        void addSpell(Spell *spell);
+        void nova(sf::Vector2f position);
         Player getPlayer();
 };
 #endif

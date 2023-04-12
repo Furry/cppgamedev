@@ -91,6 +91,14 @@ int main() {
             // player.move(Direction::RIGHT);
             lvl.getPlayer().pMove(Direction::RIGHT);
         }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+            // Get position of mouse relative to window
+            sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+            // Get position of mouse relative to player
+            sf::Vector2f mousePosPlayer = window.mapPixelToCoords(mousePos, player.getView());
+            // lvl.getPlayer().castDefaultSpell(mousePosPlayer, &lvl);
+            lvl.nova(mousePosPlayer);
+        }
 
         // printf("Event: %d", event.type);
 
