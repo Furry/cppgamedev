@@ -68,8 +68,8 @@ class Ghost : public Enemy {
         }
 
         int distance() {
-            int xPlayerEnemyDist = this->position.x - this->player.getPosition().x;
-            int yPlayerEnemyDist = this->position.y - this->player.getPosition().y;
+            int xPlayerEnemyDist = abs(this->position.x - this->player.getPosition().x);
+            int yPlayerEnemyDist = abs(this->position.y - this->player.getPosition().y);
             int playerEnemyDist = sqrt( (xPlayerEnemyDist)^2 + (yPlayerEnemyDist)^2 );
             return playerEnemyDist;
         }
@@ -100,15 +100,6 @@ class Ghost : public Enemy {
             
         }
 
-        //Why isn't this working even when I have something that should be keeping it in scope ???
-        //It also has a parameter so that shouldn't be the issue...... Why does only update & render work ? 
-        //Maybe cuz entity.h has both of them ???
-        //Okay figured it out, I needed the virtual void in entity for it to work
-        void randomHeaderTest(Level level){
-            //std::cout << "This was in the header and seems to be working" << std::endl;
-        }
-
-
         void attack(){
 
             //std::cout << "Ghost is activating the atk function" << std::endl;
@@ -119,13 +110,14 @@ class Ghost : public Enemy {
 
             if( distance() < 3){
                 //std::cout << "Ghost is within reach to atk the player and is currently trying to atk them" << std::endl;
-                if( (1 + rand() % 20) < luck) { //If player's luck is greater than they dodge the atk
-                    std::cout << "Ghost passed luck check and attacking player" << std::endl;
+                if( (1 + rand() % 20) > luck) { //If player's luck is greater than they dodge the atk
+                    //std::cout << "Ghost passed luck check and attacking player" << std::endl;
                     int dmg = dmgRed * this->stats.strength;
                     if(dmg < 1){
                         dmg = 1;
                     }
                     this->player.stats.health -= dmg;
+                    //std::cout << "This is the player's health " << this->player.stats.health << std::endl;
                 }
             }
             

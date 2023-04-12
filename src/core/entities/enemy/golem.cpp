@@ -69,8 +69,8 @@ class Golem : public Enemy {
         }
 
         int distance() {
-            int xPlayerEnemyDist = this->position.x - this->player.getPosition().x;
-            int yPlayerEnemyDist = this->position.y - this->player.getPosition().y;
+            int xPlayerEnemyDist = abs(this->position.x - this->player.getPosition().x);
+            int yPlayerEnemyDist = abs(this->position.y - this->player.getPosition().y);
             int playerEnemyDist = sqrt( (xPlayerEnemyDist)^2 + (yPlayerEnemyDist)^2 );
             return playerEnemyDist;
         }
@@ -120,7 +120,7 @@ class Golem : public Enemy {
 
             if( distance() < 3){
                 //std::cout << "Ghost is within reach to atk the player and is currently trying to atk them" << std::endl;
-                if( (1 + rand() % 20) < luck) { //If player's luck is greater than they dodge the atk
+                if( (1 + rand() % 20) > luck) { //If player's luck is greater than they dodge the atk
                     std::cout << "Ghost passed luck check and attacking player" << std::endl;
                     int dmg = dmgRed * this->stats.strength;
                     if(dmg < 1){

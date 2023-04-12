@@ -4,6 +4,7 @@
 #include "../entities/player/player.h"
 #include "../texturemanager.h"
 #include "../entities/enemy/ghost.cpp"
+#include "../entities/enemy/golem.cpp"
 #include "../entities/enemy/enemy.h"
 
 // Class CrystalCave inherits from Level
@@ -118,8 +119,8 @@ class CrystalCave : public Level {
             //Creates enemies while this is under the cap of enemies that should be near the player
             while( enemies.size() < 2) {
                 int enemySelection = (1 + rand() % 2);
-                float x = player.getPosition().x + rand() % 250;
-                float y = player.getPosition().y + random() % 250;
+                float x = player.getPosition().x + rand() % 250;    //Need to add a negative random maybe ( -1 + rand() % 2)
+                float y = player.getPosition().y + random() % 250;  //Need to add a negative random maybe ( -1 + rand() % 2)
                 sf::Vector2f enemyPos = sf::Vector2f(x, y);
                 switch (enemySelection) {
                     case 1: {
@@ -132,7 +133,12 @@ class CrystalCave : public Level {
                     }
                     case 2: 
                         //Create another enemy class here for later.
-                        int x = 4;
+                        Golem *go = new Golem(&m, &this->player);
+                        go->setPosition(enemyPos);
+                        go->render(window);
+                        //g->update(tick, *this);
+                        addEnemies(go);
+                        break; 
                 }
 
             }
