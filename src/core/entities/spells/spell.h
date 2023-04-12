@@ -16,6 +16,7 @@ class Spell {
         ~Spell() {};
         virtual void render(sf::RenderWindow* window) = 0;
         virtual void update(int tick, Level level) = 0;
+        virtual bool isDead() = 0;
 };
 
 #endif

@@ -71,6 +71,7 @@ class CrystalCave : public Level {
                 while (true) {
                     this->update(tick);
                     tick++;
+                    std::this_thread::sleep_for(std::chrono::milliseconds(1000 / 45));
                 }
             });
         }
@@ -84,7 +85,11 @@ class CrystalCave : public Level {
             }
 
             for (int i = 0; i < spells.size(); i++) {
-                spells[i]->update(tick, *this);
+                if (spells[i]->isDead()) {
+                    spells.erase(spells.begin() + i);
+                } else {
+                    spells[i]->update(tick, *this);
+                }
             }
         }
 

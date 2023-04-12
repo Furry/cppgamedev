@@ -7,7 +7,7 @@ class Nova : public Spell {
     private:
         int spellCost = 10;
         int ticksAlive = 0;
-        int ticksToLive = 1000;
+        int ticksToLive = 45;
         sf::Vector2f position;
         sf::CircleShape explosion;
         float scaleFactor = 1.0f;
@@ -27,11 +27,15 @@ class Nova : public Spell {
         window->draw(this->explosion);
     }
 
+    bool isDead() {
+        return this->ticksAlive >= this->ticksToLive;
+    }
+
     void update(int tick, Level level) {
         this->ticksAlive++;
         if (this->ticksAlive >= this->ticksToLive) {
             // Delete itself inside of level
-            std::cout << "Deleting Nova" << std::endl;
+            std::cout << "Deleting Nova, " << this->ticksAlive << " ticks alive" << std::endl;
             // this->~Nova(); // Call the destructor explicitly
             return; // Ensure we don't execute further after destruction
         } else {
