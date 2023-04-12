@@ -33,6 +33,8 @@ class Level {
         void start();
         void update(int tick);
         void stop();
+        void addEnemies();
+        void spawnEnemies();
 
         Player getPlayer();
 };

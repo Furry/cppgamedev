@@ -8,11 +8,17 @@
 #include "libs/ticker.h"
 
 #include "core/level/crystalcave.cpp"
-#include "core/entities/enemy/ghost.cpp"
+//#include "core/entities/enemy/ghost.cpp"
+
+#include <sstream>
 
 using namespace std;
 
 int main() {
+
+    //This is just to test if I can display integers and strings
+    int testPrintIntBoard = 4;
+
     sf::RenderWindow window(sf::VideoMode(800, 800), "SFML works even better uwu!");
 
     // ! Create game instance
@@ -23,13 +29,13 @@ int main() {
     // std::vector<int> atlasIndices = (std::vector<int>) {165, 166, 167, 168, 169};
     TextureManager m = game.getTextureManager();
     Player player = Player(&m);
-    CrystalCave lvl = CrystalCave(0, player);
+    CrystalCave lvl = CrystalCave(0, &player);
 
     m.load("crystalCaveObjects8x8", 8, 8);
     m.load("lofiChar", 8, 8);
 
-    Ghost g = Ghost(&m);
-    lvl.addEntity(&g);
+    //Ghost g = Ghost(&m);
+    //lvl.addEnemies(&g);
     // game.start();
     lvl.start();
 
@@ -67,22 +73,22 @@ int main() {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
             // player.setPosition(sf::Vector2f(player.getPosition().x, player.getPosition().y - 1));
             // player.move(Direction::UP);
-            lvl.getPlayer().move(Direction::UP);
+            lvl.getPlayer().pMove(Direction::UP);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
             // player.setPosition(sf::Vector2f(player.getPosition().x, player.getPosition().y + 1));
             // player.move(Direction::DOWN);
-            lvl.getPlayer().move(Direction::DOWN);
+            lvl.getPlayer().pMove(Direction::DOWN);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
             // player.setPosition(sf::Vector2f(player.getPosition().x - 1, player.getPosition().y));
             // player.move(Direction::LEFT);
-            lvl.getPlayer().move(Direction::LEFT);
+            lvl.getPlayer().pMove(Direction::LEFT);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
             // player.setPosition(sf::Vector2f(player.getPosition().x + 1, player.getPosition().y));
             // player.move(Direction::RIGHT);
-            lvl.getPlayer().move(Direction::RIGHT);
+            lvl.getPlayer().pMove(Direction::RIGHT);
         }
 
         // printf("Event: %d", event.type);
@@ -92,6 +98,7 @@ int main() {
 
         window.clear();
         player.update(tally, lvl);
+
 
         // Scale the sprite and draw it across the screen
         sprite.setScale(4, 4);
@@ -107,10 +114,28 @@ int main() {
             }
         }
 
+        /** pt board
+        sf::RectangleShape board;
+        board.setSize( sf::Vector2f(200, 150) );
+        board.setFillColor( sf::Color::Black);
+        board.setPosition( lvl.getPlayer().getPosition().x + 300, lvl.getPlayer().getPosition().y - 400);
+        window.draw(board);*/
+
+
+        sf::Text textTest;
+        std::stringstream ss; //#include <sstream>  https://en.sfml-dev.org/forums/index.php?topic=8368.0
+        ss << testPrintIntBoard;
+
+        textTest.setString( ss.str().c_str() );
+
+        window.draw( textTest );
+
+        lvl.updateEnemies(tally, m, &window);  //Something being added here
+        //lvl.enemyAI();
         player.render(&window);
         player.renderHud(&window);
         window.display();
-    //     tally += 1;
+        //tally += 1;
     }
 
     return 0;

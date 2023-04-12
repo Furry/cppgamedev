@@ -8,12 +8,13 @@
 #include "../../texturemanager.h"
 #include "../../level/level.h"
 
+/**
 enum Direction {
     UP,
     DOWN,
     LEFT,
     RIGHT
-};
+};*/
 
 class Player : public Entity {
     private:
@@ -27,6 +28,7 @@ class Player : public Entity {
         Player() {}
         ~Player() {};
         Stats stats;
+        int pts = 0;
         void update(int tick, Level level);
         void render(sf::RenderWindow* window);
         void renderHud(sf::RenderWindow* window);
@@ -36,7 +38,12 @@ class Player : public Entity {
         sf::Sprite getSprite();
 
         // Movement
-        void move(Direction direction);
+        void eMove();
+        void pMove(Direction direction);
+
+        // Attack
+        void attack();  //Maybe take in enemies within a certain direction ? Can I see which direction the player is looking at ???
+        //I could just make something that calculates distance to all of the enemies and see if I can can atk and just say the player has an aoe atk
 };
 
 #endif
