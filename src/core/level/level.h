@@ -16,6 +16,7 @@
 #include <SFML/Graphics.hpp>
 
 class Player;
+class Spell;
 
 class Level {
     private:

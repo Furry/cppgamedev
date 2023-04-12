@@ -4,19 +4,19 @@
 
 class Nova : public Spell {
 
-private:
-    int spellCost = 10;
-    int ticksAlive = 0;
-    int ticksToLive = 100;
-    sf::Vector2f position;
-    sf::CircleShape explosion;
-    float scaleFactor = 1.0f;
-public:
-    Nova(sf::Vector2f position) {
-        this->position = position;
-        this->explosion.setRadius(10);
-        this->explosion.setPosition(position);
-        this->explosion.setFillColor(sf::Color::Yellow);
+    private:
+        int spellCost = 10;
+        int ticksAlive = 0;
+        int ticksToLive = 100;
+        sf::Vector2f position;
+        sf::CircleShape explosion;
+        float scaleFactor = 1.0f;
+    public:
+        Nova(sf::Vector2f position) {
+            this->position = position;
+            this->explosion.setRadius(10);
+            this->explosion.setPosition(position);
+            this->explosion.setFillColor(sf::Color::Yellow);
     }
 
     ~Nova() {}
@@ -25,7 +25,7 @@ public:
         window->draw(this->explosion);
     }
 
-    void update(int tick, Level *level) {
+    void update(int tick, Level level) {
         this->ticksAlive++;
         if (this->ticksAlive >= this->ticksToLive) {
             // Delete itself inside of level
