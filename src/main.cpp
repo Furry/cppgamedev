@@ -14,6 +14,58 @@
 
 using namespace std;
 
+void drawGameOver(sf::RenderWindow *window, int score) {
+    // Reset the view to the default view
+    sf::View defaultView = window->getDefaultView();
+    window->setView(defaultView);
+    window->clear();
+
+
+    sf::RectangleShape background(sf::Vector2f(window->getSize().x, window->getSize().y));
+    background.setFillColor(sf::Color(0, 0, 0, 255));
+    window->draw(background);
+
+    // Set up the "Game Over" text
+    sf::Font font;
+    if (!font.loadFromFile("fonts/arial.ttf")) {
+        std::cout << "Error loading font" << std::endl;
+    }
+
+    sf::Text gameOverText;
+    gameOverText.setFont(font);
+    gameOverText.setString("Game Over");
+    gameOverText.setCharacterSize(64);
+    gameOverText.setFillColor(sf::Color::White);
+    gameOverText.setStyle(sf::Text::Bold);
+
+    // Center the "Game Over" text on the window
+    sf::FloatRect textRect = gameOverText.getLocalBounds();
+    gameOverText.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
+    gameOverText.setPosition(sf::Vector2f(window->getSize().x / 2.0f, window->getSize().y / 3.0f));
+
+    // Set up the score text
+    sf::Text scoreText;
+    scoreText.setFont(font);
+    scoreText.setString("Score: " + std::to_string(score));
+    scoreText.setCharacterSize(48);
+    scoreText.setFillColor(sf::Color::White);
+    textRect = scoreText.getLocalBounds();
+    scoreText.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
+    scoreText.setPosition(sf::Vector2f(window->getSize().x / 2.0f, window->getSize().y / 2.0f));
+
+    window->draw(gameOverText);
+    window->draw(scoreText);
+    window->display();
+
+    sf::Event event;
+    while (window->waitEvent(event)) {
+        if (event.type == sf::Event::Closed || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
+            window->close();
+            break;
+        }
+    }
+}
+
 int main() {
 
     //This is just to test if I can display integers and strings
@@ -64,11 +116,11 @@ int main() {
     // int indx = 0;
     while (window.isOpen()) {
         tally++;
-        // sf::Event event;
-        // while (window.pollEvent(event)) {
-        //     if (event.type == sf::Event::Closed)
-        //         window.close();
-        // }
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
 
         // The evolution of how player is accessed heh
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
@@ -148,6 +200,10 @@ int main() {
         player.renderHud(&window);
         window.display();
         //tally += 1;
+
+        if (player.stats.health <= 0) {
+            drawGameOver(&window, player.pts);
+        }
 
         // 60 fps
         sf::sleep(sf::milliseconds(16));
