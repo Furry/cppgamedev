@@ -94,6 +94,9 @@ class CrystalCave : public Level {
                         Enemy *enemy = enemies[j];
                         if (spells[i]->doesCollide(enemy->getPosition())) {
                             enemy->stats.health -= 1;
+                            if (enemy->stats.health <= 0) {
+                                enemies.erase(enemies.begin() + j);
+                            }
                         }
                     }
                     spells[i]->update(tick, *this);
