@@ -16,6 +16,7 @@ class Golem : public Enemy {
         sf::Sprite sprite;
         TextureManager textureManager;
         Player &player;
+        int tick;
     public:
         Golem(TextureManager *textureManager, Player* player) : player(*player) {
             std::cout << "Golem created" << std::endl;
@@ -42,6 +43,7 @@ class Golem : public Enemy {
             //this->player = level.getPlayer(); //I was trying to access the pointer to player through the level.h
             //but it didn't work so I just decide to declare it within the levels itself.
             this->sprite.setTexture(*this->textureManager.getTexture("chars8x8dEncounters", 364));
+            this->tick = tick;
 
             //Maybe implement something here to see if the enemies health is 0, and if it is then deconstruct the class
             if( this->stats.health == 0){
@@ -115,17 +117,19 @@ class Golem : public Enemy {
             //std::cout << "Ghost is activating the atk function" << std::endl;
 
             float def = player.stats.defense;
-            int dmgRed = def / def + 100; //Damage reduction formula
+            float dmgRed = def / (def + 100); //Damage reduction formula
             float luck = player.stats.luck;
 
-            if( distance() < 3){
+            if( distance() < 10 && tick % 10 == 0){
                 //std::cout << "Ghost is within reach to atk the player and is currently trying to atk them" << std::endl;
                 if( (1 + rand() % 20) > luck) { //If player's luck is greater than they dodge the atk
                     //std::cout << "Golem passed luck check and attacking player" << std::endl;
-                    int dmg = dmgRed * this->stats.strength;
+                    float dmg = dmgRed * this->stats.strength;
+                    //std::cout << "Player's dmg reduction is " << dmgRed << std::endl;
                     if(dmg < 1){
                         dmg = 1;
                     }
+                    //std::cout << "Golem dmg to player is " << dmg << std::endl;
                     this->player.stats.health -= dmg;
                 }
             }

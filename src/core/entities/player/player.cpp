@@ -3,11 +3,12 @@
 #include "player.h"
 #include "../spells/nova.cpp"
 #include <iostream>
+#include <sstream> 
 
 // add default
 Stats createStats() {
     return Stats  {
-        20, 20, 100, 100, 1, 1, 1, 1, 1, 1
+        50, 100, 100, 100, 1, 25, 1, 1, 1, 1
     };
 }
 
@@ -165,4 +166,26 @@ void Player::renderHud(sf::RenderWindow* window) {
     window->draw(manaBarOuter);
     window->draw(manaBar);
     window->draw(healthText);
+
+    //Draw's pt board
+    sf::RectangleShape board;
+    board.setSize( sf::Vector2f(75, 50) );
+    board.setFillColor( sf::Color::Black);
+    board.setPosition( this->position.x + 330, this->position.y - 400);
+    window->draw(board);
+
+    //Draw's pts on the pt board
+    sf::Font font;
+    sf::Text textTest;
+    font.loadFromFile("fonts/arial.ttf");
+    textTest.setFont(font);
+    textTest.setPosition(this->position.x + 335, this->position.y - 390);
+    std::stringstream ss; //#include <sstream>  https://en.sfml-dev.org/forums/index.php?topic=8368.0
+    ss << this->pts;
+    textTest.setString( ss.str() );
+    textTest.setCharacterSize(24);
+    textTest.setFillColor(sf::Color::White);
+    //textTest.setStyle(sf::Text::Bold | sf::Text::Underlined);
+    textTest.setStyle(sf::Text::Bold);
+    window->draw( textTest );
 }
