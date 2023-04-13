@@ -9,11 +9,14 @@
 #include "../../modules/perlin.h"
 #include "../entities/object.h"
 #include "../entities/entity.h"
+#include "../entities/spells/spell.h"
+
 // #include "../entities/player/player.h"
 
 #include <SFML/Graphics.hpp>
 
 class Player;
+class Spell;
 
 class Level {
     private:
@@ -22,7 +25,7 @@ class Level {
         std::string atlasName;
         std::vector<int> atlasIndices;
         std::vector<Object> objects;
-        // std::vector<Entity*> entities;
+        std::vector<Entity*> entities;
         Player* player;
         int seed;
 
@@ -35,7 +38,11 @@ class Level {
         void stop();
         void addEnemies();
         void spawnEnemies();
+    
+        void addSpell(Spell *spell);
+        void nova(sf::Vector2f position);
 
+        void damageInRadius(sf::Vector2f position, int radius, int damage);
         Player getPlayer();
 };
 #endif

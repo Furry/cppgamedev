@@ -44,6 +44,9 @@ class Player : public Entity {
         // Attack
         void attack();  //Maybe take in enemies within a certain direction ? Can I see which direction the player is looking at ???
         //I could just make something that calculates distance to all of the enemies and see if I can can atk and just say the player has an aoe atk
+
+        void damage(int damage);
+        void heal(int heal);
 };
 
 #endif

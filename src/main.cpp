@@ -64,11 +64,11 @@ int main() {
     // int indx = 0;
     while (window.isOpen()) {
         tally++;
-        sf::Event event;
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
+        // sf::Event event;
+        // while (window.pollEvent(event)) {
+        //     if (event.type == sf::Event::Closed)
+        //         window.close();
+        // }
 
         // The evolution of how player is accessed heh
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
@@ -90,6 +90,17 @@ int main() {
             // player.setPosition(sf::Vector2f(player.getPosition().x + 1, player.getPosition().y));
             // player.move(Direction::RIGHT);
             lvl.getPlayer().pMove(Direction::RIGHT);
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+            // Get position of mouse relative to window
+            sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+            // turn it inito 2f
+            sf::Vector2f mousePos2f = sf::Vector2f(mousePos.x, mousePos.y);
+
+            // Get position of mouse relative to player
+            sf::Vector2f mousePosPlayer = window.mapPixelToCoords(mousePos, player.getView());
+            // lvl.getPlayer().castDefaultSpell(mousePosPlayer, &lvl);
+            lvl.nova(mousePosPlayer);
         }
 
         // printf("Event: %d", event.type);
@@ -137,6 +148,9 @@ int main() {
         player.renderHud(&window);
         window.display();
         //tally += 1;
+
+        // 60 fps
+        sf::sleep(sf::milliseconds(16));
     }
 
     return 0;

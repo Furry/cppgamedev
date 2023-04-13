@@ -6,6 +6,8 @@
 #include "../entities/enemy/ghost.cpp"
 #include "../entities/enemy/golem.cpp"
 #include "../entities/enemy/enemy.h"
+#include "../entities/spells/spell.h"
+#include "../entities/spells/nova.cpp"
 
 // Class CrystalCave inherits from Level
 class CrystalCave : public Level {
@@ -17,6 +19,8 @@ class CrystalCave : public Level {
         std::vector<Object> objects;
         std::vector<Entity*> entities;
         std::vector<Enemy*> enemies;
+        std::vector<Spell*> spells;
+
         Player &player;
         int seed;
     public:
@@ -40,6 +44,10 @@ class CrystalCave : public Level {
                 //enemies[i]->randomHeaderTest();
                 //enemies[i]->move();
             }
+
+            for (int i = 0; i < spells.size(); i++) {
+                spells[i]->render(window);
+            }
         }
 
         void renderAt(sf::RenderWindow* window, sf::Vector2f position);
@@ -53,12 +61,17 @@ class CrystalCave : public Level {
             this->enemies.push_back(enemy);
         }
 
+        void addSpells(Spell *spell){
+            this->spells.push_back(spell);
+        }
+
         void start() {
             this->tickThread = new std::thread([this]() {
                 int tick = 0;
                 while (true) {
                     this->update(tick);
                     tick++;
+                    std::this_thread::sleep_for(std::chrono::milliseconds(1000 / 45));
                 }
             });
         }
@@ -70,8 +83,26 @@ class CrystalCave : public Level {
                 //entities[i]->update(tick, *this);
                 enemies[i]->update(tick, *this);
             }
-        }
 
+            for (int i = 0; i < spells.size(); i++) {
+                if (spells[i]->isDead()) {
+                    spells.erase(spells.begin() + i);
+                } else {
+
+                    // Check if there's an enemy in the spell's radius
+                    for (int j = 0; j < enemies.size(); j++) {
+                        Enemy *enemy = enemies[j];
+                        if (spells[i]->doesCollide(enemy->getPosition())) {
+                            enemy->stats.health -= 1;
+                            if (enemy->stats.health <= 0) {
+                                enemies.erase(enemies.begin() + j);
+                            }
+                        }
+                    }
+                    spells[i]->update(tick, *this);
+                }
+            }
+        }
 
         //When updating I should probably be checking if there are enough enemies and if there isn't
         //then I can just create more enemies 
@@ -157,5 +188,20 @@ class CrystalCave : public Level {
 
         std::vector<Enemy*> getEnemies() {
             return this->enemies;
+        }
+
+        std::vector<Spell*> getSpells() {
+            return this->spells;
+        }
+
+        void damageInRadius(sf::Vector2f position, int radius, int damage) {
+            std::cout << "Damage in radius called" << std::endl;
+        }
+
+
+        void nova(sf::Vector2f position) {
+            Nova *n = new Nova(position);
+            //this->spells.push_back(n);
+            addSpells(n);
         }
 };
