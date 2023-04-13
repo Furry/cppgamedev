@@ -44,10 +44,6 @@ class CrystalCave : public Level {
                 //enemies[i]->randomHeaderTest();
                 //enemies[i]->move();
             }
-
-            for (int i = 0; i < spells.size(); i++) {
-                spells[i]->render(window);
-            }
         }
 
         void renderAt(sf::RenderWindow* window, sf::Vector2f position);
@@ -71,7 +67,6 @@ class CrystalCave : public Level {
                 while (true) {
                     this->update(tick);
                     tick++;
-                    std::this_thread::sleep_for(std::chrono::milliseconds(1000 / 45));
                 }
             });
         }
@@ -85,24 +80,10 @@ class CrystalCave : public Level {
             }
 
             for (int i = 0; i < spells.size(); i++) {
-                if (spells[i]->isDead()) {
-                    spells.erase(spells.begin() + i);
-                } else {
-
-                    // Check if there's an enemy in the spell's radius
-                    for (int j = 0; j < enemies.size(); j++) {
-                        Enemy *enemy = enemies[j];
-                        if (spells[i]->doesCollide(enemy->getPosition())) {
-                            enemy->stats.health -= 1;
-                            if (enemy->stats.health <= 0) {
-                                enemies.erase(enemies.begin() + j);
-                            }
-                        }
-                    }
-                    spells[i]->update(tick, *this);
-                }
+                spells[i]->update(tick, *this);
             }
         }
+
 
         //When updating I should probably be checking if there are enough enemies and if there isn't
         //then I can just create more enemies 
@@ -150,8 +131,8 @@ class CrystalCave : public Level {
             //Creates enemies while this is under the cap of enemies that should be near the player
             while( enemies.size() < 2) {
                 int enemySelection = (1 + rand() % 2);
-                float x = player.getPosition().x + rand() % 250;    //Need to add a negative random maybe ( -1 + rand() % 2)
-                float y = player.getPosition().y + random() % 250;  //Need to add a negative random maybe ( -1 + rand() % 2)
+                float x = player.getPosition().x + ( (rand() % 350) * (-1 + rand() % 2) );    //Need to add a negative random maybe ( -1 + rand() % 2)
+                float y = player.getPosition().y + ( (rand() % 350) * (-1 + rand() % 2) );  //Need to add a negative random maybe ( -1 + rand() % 2)
                 sf::Vector2f enemyPos = sf::Vector2f(x, y);
                 switch (enemySelection) {
                     case 1: {
@@ -194,14 +175,8 @@ class CrystalCave : public Level {
             return this->spells;
         }
 
-        void damageInRadius(sf::Vector2f position, int radius, int damage) {
-            std::cout << "Damage in radius called" << std::endl;
-        }
-
-
         void nova(sf::Vector2f position) {
             Nova *n = new Nova(position);
             //this->spells.push_back(n);
-            addSpells(n);
         }
 };
