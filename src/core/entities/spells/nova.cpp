@@ -20,8 +20,6 @@ class Nova : public Spell {
             this->explosion.setRadius(10);
             this->explosion.setPosition(position);
             this->explosion.setFillColor(sf::Color::Yellow);
-
-            std::cout << "Nova created at " << position.x << ", " << position.y << std::endl;
         }
 
     ~Nova() {}
@@ -42,7 +40,6 @@ class Nova : public Spell {
 
         if (this->ticksAlive >= this->ticksToLive) {
             // Delete itself inside of level
-            std::cout << "Deleting Nova, " << this->ticksAlive << " ticks alive" << std::endl;
             // this->~Nova(); // Call the destructor explicitly
             return; // Ensure we don't execute further after destruction
         } else {

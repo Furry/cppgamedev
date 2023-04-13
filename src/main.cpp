@@ -1,5 +1,6 @@
 #include <iostream>
 #include "SFML/Graphics.hpp"
+#include "SFML/Audio.hpp"
 #include "libs/atlas.h"
 #include "modules/perlin.h"
 
@@ -66,6 +67,24 @@ void drawGameOver(sf::RenderWindow *window, int score) {
     }
 }
 
+
+// https://www.fesliyanstudios.com/royalty-free-music/downloads-c/8-bit-music/6 from here!
+bool playBackgroundMusic() {
+    static sf::Music backgroundMusic;
+
+    if (!backgroundMusic.openFromFile("static/audio/background_music.wav")) {
+        std::cout << "Error loading background music" << std::endl;
+        return false;
+    }
+
+    backgroundMusic.setLoop(true);
+    backgroundMusic.setVolume(25);
+
+    backgroundMusic.play();
+
+    return true;
+}
+
 int main() {
 
     //This is just to test if I can display integers and strings
@@ -87,17 +106,8 @@ int main() {
     m.load("lofiChar", 8, 8);
     m.load("chars8x8dEncounters", 8, 8);
 
-    //Ghost g = Ghost(&m);
-    //lvl.addEnemies(&g);
-    // game.start();
+    playBackgroundMusic();
     lvl.start();
-
-
-    // Check if player and  lvl.getPlayer() are the same
-    std::cout << &player << std::endl;
-    Player p2 = lvl.getPlayer();
-
-    // Player player(charTextures);
 
     Perlin perlin(4);
     sf::Texture* textures[] = {
