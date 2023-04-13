@@ -15,6 +15,7 @@ class Ghost : public Enemy {
         sf::Sprite sprite;
         TextureManager textureManager;
         Player &player;
+        int tick;
     public:
         Ghost(TextureManager *textureManager, Player* player) : player(*player) {
             std::cout << "Ghost created" << std::endl;
@@ -40,6 +41,7 @@ class Ghost : public Enemy {
             //but it didn't work so I just decide to declare it within the levels itself.
             //this->sprite.setTexture(*this->textureManager.getTexture("lofiChar", 31));
             this->sprite.setTexture(*this->textureManager.getTexture("chars8x8dEncounters", 350));
+            this->tick = tick;
 
             //Maybe implement something here to see if the enemies health is 0, and if it is then deconstruct the class
             if( this->stats.health == 0){
@@ -104,18 +106,19 @@ class Ghost : public Enemy {
             //std::cout << "Ghost is activating the atk function" << std::endl;
 
             float def = player.stats.defense;
-            int dmgRed = def / def + 100; //Damage reduction formula
+            float dmgRed = def / (def + 100); //Damage reduction formula
             float luck = player.stats.luck;
 
-            if( distance() < 3){ //Also add modulo tick eventually ig, add 3x longer modulo for ranged enemies 
+            if( distance() < 10 && tick % 10 == 0){ //Also add modulo tick eventually ig, add 3x longer modulo for ranged enemies 
                 //std::cout << "Ghost is within reach to atk the player and is currently trying to atk them" << std::endl;
                 if( (1 + rand() % 30) > luck) { //If player's luck is greater than they dodge the atk, max player luck is 20
                     //std::cout << "Ghost passed luck check and attacking player" << std::endl;
-                    int dmg = dmgRed * this->stats.strength;
+                    float dmg = dmgRed * this->stats.strength;
                     if(dmg < 1){
                         dmg = 1;
                     }
                     this->player.stats.health -= dmg;
+                    //Figure out a way to display the dmg above the player's health bar 
                     //std::cout << "This is the player's health " << this->player.stats.health << std::endl;
                 }
             }
