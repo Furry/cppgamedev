@@ -18,7 +18,6 @@ class Ghost : public Enemy {
         int tick;
     public:
         Ghost(TextureManager *textureManager, Player* player) : player(*player) {
-            std::cout << "Ghost created" << std::endl;
             id = rand() % 1000;
             this->textureManager = *textureManager;
             this->sprite = sf::Sprite();
@@ -27,7 +26,6 @@ class Ghost : public Enemy {
             this->player = *player;
         }
         ~Ghost() {
-            std::cout << "Ghost destroyed" << std::endl;
             this->player.pts += 1;
         }
         
@@ -69,10 +67,13 @@ class Ghost : public Enemy {
         }
 
         int distance() {
-            int xPlayerEnemyDist = abs(this->position.x - this->player.getPosition().x);
-            int yPlayerEnemyDist = abs(this->position.y - this->player.getPosition().y);
-            int playerEnemyDist = sqrt( (xPlayerEnemyDist)^2 + (yPlayerEnemyDist)^2 );
-            return playerEnemyDist;
+            sf::Vector2f playerPos = this->player.getPosition();
+            sf::Vector2f enemyPos = this->position;
+
+            float deltaX = playerPos.x - enemyPos.x;
+            float deltaY = playerPos.y - enemyPos.y;
+
+            return std::sqrt(deltaX * deltaX + deltaY * deltaY);
         }
 
         void pMove(Direction direction) {};

@@ -93,7 +93,13 @@ class CrystalCave : public Level {
                     // Check if there's an enemy in the spell's radius
                     for (int j = 0; j < enemies.size(); j++) {
                         Enemy *enemy = enemies[j];
-                        if (spells[i]->doesCollide(enemy->getPosition())) {
+                        // Get the center of the enemy via sprite size
+                        sf::Vector2f pos = enemy->getPosition();
+                        // Add half of it's width and height to get the center
+                        pos.x += enemy->getSprite().getGlobalBounds().width / 2;
+                        pos.y += enemy->getSprite().getGlobalBounds().height / 2;
+
+                        if (spells[i]->doesCollide(pos)) {
                             enemy->stats.health -= 1;
                             if (enemy->stats.health <= 0) {
                                 this->player.pts += 1;

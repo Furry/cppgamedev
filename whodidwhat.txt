@@ -1,0 +1,27 @@
+Andrew:
+ - Enemy: (Ghosts & Golem.) [ghost.cpp & golem.cpp]
+    - Created the way enemies are spawned around the player
+    - Added enemy movement
+    - Added enemy attacking
+    - Point values
+    - Enemy failing attack based on player luck logic
+ - UI:
+    - Enemy health bars
+    - Point HUD
+ - Game:
+    - Point tracker
+    - Enemy pathfinding & spawning
+
+Ender:
+ - UI:
+    - Backgrounud Music
+    - View Scrolling
+    - Procedural map generation
+    - Texture loading
+ - Player:
+    - Player health / mana
+    - Player attacking
+    - Player movement 
+ - Game:
+    - Game thread
+    - Render thread

@@ -125,6 +125,8 @@ int main() {
     int tally = 0;
     // int indx = 0;
     while (window.isOpen()) {
+        // print tally
+        std::cout << "Tally: " << tally << std::endl;
         tally++;
         sf::Event event;
         while (window.pollEvent(event)) {
@@ -180,8 +182,8 @@ int main() {
         // window.draw(sprite);
 
         // Draw a 4x4 grid of the sprites
-        for (int i = -100; i < 100; i++) {
-            for (int j = -100; j < 100; j++) {
+        for (int i = -50; i < 50; i++) {
+            for (int j = -50; j < 50; j++) {
                 sprite.setPosition(i * 32, j * 32);
                 sprite.setTexture(*textures[perlin.getNoise(i, j)]);
                 window.draw(sprite);
