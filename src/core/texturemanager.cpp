@@ -19,21 +19,20 @@ TextureManager::~TextureManager() {
 }
 
 void TextureManager::load(std::string name, int width, int height) {
-
     // Load the atlas
     Atlas* atlas = new Atlas("static/textures/" + name + ".png", width, height);
-    // TextureMap texturesTemp = TextureMap();
 
-    // Create a map for the textures
+    // Create a map for the textures and texture rects
     std::unordered_map<int, sf::Texture*> textureMap = std::unordered_map<int, sf::Texture*>();
+    std::unordered_map<int, sf::IntRect> textureRectMap = std::unordered_map<int, sf::IntRect>();
 
-    // test.insert_or_assign("test", std::map<int, int>());
-    // Loop through the atlas and add the textures to the map
+    // Loop through the atlas and add the textures and texture rects to their respective maps
     for (int i = 0; i < atlas->getCount(); i++) {
         textureMap[i] = atlas->getTexture(i);
     }
 
     this->textures->insert(std::make_pair(name, textureMap));
+    std::cout << "Loaded " << name << " with " << atlas->getCount() << " textures" << std::endl;
 }
 
 sf::Texture* TextureManager::getTexture(std::string name, int index) {
