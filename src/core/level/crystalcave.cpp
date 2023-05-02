@@ -36,8 +36,6 @@ class CrystalCave : public Level {
         }
 
         void render(sf::RenderWindow* window) {
-            //Do nothing 
-            //This is just for testing
             for (int i = 0; i < enemies.size(); i++) {
                 //entities[i]->render(window);
                 enemies[i]->render(window);
@@ -117,18 +115,12 @@ class CrystalCave : public Level {
         //When updating I should probably be checking if there are enough enemies and if there isn't
         //then I can just create more enemies 
         void updateEnemies(int tick, TextureManager m, sf::RenderWindow* window) {
-            // Print size of entities
-            /**
-            for (int i = 0; i < entities.size(); i++) {
-                entities[i]->update(tick, *this);
-            }*/
 
-            //std::cout << "Is this even working after the 1st run through of it " << std::endl;
 
-            spawnEnemies(m, window, tick);
-            update(tick);
-            enemyAI(tick);
-            render(window);
+            // spawnEnemies(m, window, tick);
+            // update(tick);
+            // enemyAI(tick);
+            // render(window);
 
             
         }

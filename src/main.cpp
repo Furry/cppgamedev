@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include "SFML/Graphics.hpp"
 #include "SFML/Audio.hpp"
 #include "libs/atlas.h"
@@ -7,7 +8,7 @@
 #include "core/game.cpp"
 #include "core/level/level.h"
 #include "libs/ticker.h"
-
+#include "libs/layerreader.h"
 #include "core/level/crystalcave.cpp"
 //#include "core/entities/enemy/ghost.cpp"
 
@@ -15,7 +16,7 @@
 
 using namespace std;
 
-void drawGameOver(sf::RenderWindow *window, int score) {
+void pauseGame(sf::RenderWindow *window) {
     // Reset the view to the default view
     sf::View defaultView = window->getDefaultView();
     window->setView(defaultView);
@@ -32,30 +33,19 @@ void drawGameOver(sf::RenderWindow *window, int score) {
         std::cout << "Error loading font" << std::endl;
     }
 
-    sf::Text gameOverText;
-    gameOverText.setFont(font);
-    gameOverText.setString("Game Over");
-    gameOverText.setCharacterSize(64);
-    gameOverText.setFillColor(sf::Color::White);
-    gameOverText.setStyle(sf::Text::Bold);
+    sf::Text pauseText;
+    pauseText.setFont(font);
+    pauseText.setString("Paused");
+    pauseText.setCharacterSize(64);
+    pauseText.setFillColor(sf::Color::White);
+    pauseText.setStyle(sf::Text::Bold);
 
     // Center the "Game Over" text on the window
-    sf::FloatRect textRect = gameOverText.getLocalBounds();
-    gameOverText.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
-    gameOverText.setPosition(sf::Vector2f(window->getSize().x / 2.0f, window->getSize().y / 3.0f));
+    sf::FloatRect textRect = pauseText.getLocalBounds();
+    pauseText.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
+    pauseText.setPosition(sf::Vector2f(window->getSize().x / 2.0f, window->getSize().y / 3.0f));
 
-    // Set up the score text
-    sf::Text scoreText;
-    scoreText.setFont(font);
-    scoreText.setString("Score: " + std::to_string(score));
-    scoreText.setCharacterSize(48);
-    scoreText.setFillColor(sf::Color::White);
-    textRect = scoreText.getLocalBounds();
-    scoreText.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
-    scoreText.setPosition(sf::Vector2f(window->getSize().x / 2.0f, window->getSize().y / 2.0f));
-
-    window->draw(gameOverText);
-    window->draw(scoreText);
+    window->draw(pauseText);
     window->display();
 
     sf::Event event;
@@ -63,6 +53,10 @@ void drawGameOver(sf::RenderWindow *window, int score) {
         if (event.type == sf::Event::Closed || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
             window->close();
             break;
+        }
+        // If escape key down, break out of the loop
+        if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) {
+            return;
         }
     }
 }
@@ -102,31 +96,32 @@ int main() {
     Player player = Player(&m);
     CrystalCave lvl = CrystalCave(0, &player);
 
+    // Load the png from /static/levels/spirit/layer1.png and read it pixel by pixel
+    sf::Image image;
+    image.loadFromFile("static/levels/spirit/layer1.png");
+    sf::Vector2u size = image.getSize();
+    sf::Color color;
+
+    LayerReader layerReader = LayerReader("static/levels/spirit/layer1.txt");
+
+    m.load("SakuraEnvironment8x8", 8, 8);
     m.load("crystalCaveObjects8x8", 8, 8);
     m.load("lofiChar", 8, 8);
     m.load("chars8x8dEncounters", 8, 8);
+    m.load("parasiteDenObjects8x8", 8, 8);
 
-    playBackgroundMusic();
+    // playBackgroundMusic();
     lvl.start();
 
-    Perlin perlin(4);
-    sf::Texture* textures[] = {
-        m.getTexture("crystalCaveObjects8x8", 165),
-        m.getTexture("crystalCaveObjects8x8", 166),
-        m.getTexture("crystalCaveObjects8x8", 167),
-        m.getTexture("crystalCaveObjects8x8", 168),
-        m.getTexture("crystalCaveObjects8x8", 169)
-    };
-
     sf::Sprite sprite;
-    sprite.setTexture(*textures[0]);
+    sprite.setTexture(*m.getTexture("crystalCaveObjects8x8", 165));
 
     player.stats.speed = 6;
     int tally = 0;
     // int indx = 0;
     while (window.isOpen()) {
         // print tally
-        std::cout << "Tally: " << tally << std::endl;
+        // std::cout << "Tally: " << tally << std::endl;
         tally++;
         sf::Event event;
         while (window.pollEvent(event)) {
@@ -166,6 +161,10 @@ int main() {
             // lvl.getPlayer().castDefaultSpell(mousePosPlayer, &lvl);
             lvl.nova(mousePosPlayer);
         }
+        // If escape pressed, pause the game
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+            pauseGame(&window);
+        }
 
         // printf("Event: %d", event.type);
 
@@ -173,20 +172,27 @@ int main() {
         window.setView(player.getView());
 
         window.clear();
+
         player.update(tally, lvl);
 
-
+    
         // Scale the sprite and draw it across the screen
         sprite.setScale(4, 4);
         sprite.setPosition(0, 0);
         // window.draw(sprite);
 
-        // Draw a 4x4 grid of the sprites
-        for (int i = -50; i < 50; i++) {
-            for (int j = -50; j < 50; j++) {
-                sprite.setPosition(i * 32, j * 32);
-                sprite.setTexture(*textures[perlin.getNoise(i, j)]);
-                window.draw(sprite);
+        // Loop through each pixel in the image
+        for (int i = 0; i < size.x; i++) {
+            for (int j = 0; j < size.y; j++) {
+                // Print the RGB
+                color = image.getPixel(i, j);
+                int index = layerReader.getTile(color.r, color.g, color.b, color.a);
+                if (index != -1) {
+                    sprite.setPosition(i * 32, j * 32);
+                    sprite.setTexture(
+                        *m.getTexture("parasiteDenObjects8x8", layerReader.getTile(color.r, color.g, color.b, color.a)));
+                    window.draw(sprite);
+                }
             }
         }
 
@@ -212,10 +218,6 @@ int main() {
         player.renderHud(&window);
         window.display();
         //tally += 1;
-
-        if (player.stats.health <= 0) {
-            drawGameOver(&window, player.pts);
-        }
 
         // 60 fps
         sf::sleep(sf::milliseconds(16));
