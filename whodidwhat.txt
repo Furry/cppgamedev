@@ -34,6 +34,7 @@ Andrew:
     - CrystalCave PNG map layer
     - Dungeon PNG map layer
     - Implemented Dungeon Level
+    - Implemented Hell Level
  - Misc:
     - Clear Enemies function
 
