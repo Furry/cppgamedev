@@ -61,6 +61,7 @@ int main() {
     m.load("lofiChar", 8, 8);
     m.load("chars8x8dEncounters", 8, 8);
     m.load("parasiteDenObjects8x8", 8, 8);
+    m.load("mountainTempleObjects8x8", 8, 8);
 
     playBackgroundMusic();
     //ccLvl.start();    //Is this even needed anymore ?
@@ -158,7 +159,7 @@ int main() {
             hellLvl.clearEnemies();
         }
         else if(levelControl == 2) {   //This is dungeon level
-            //dungeonLevel.renderMap(sprite, &window, m)
+            dungeonLvl.renderMap(sprite, &window, m);
             //dungeonLvl.updateEnemies(tally, m, &window); 
             ccLvl.clearEnemies();
             hellLvl.clearEnemies();

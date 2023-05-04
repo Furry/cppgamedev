@@ -53,11 +53,11 @@ class CrystalCave : public Level {
         void renderMap(sf::Sprite sprite, sf::RenderWindow* window, TextureManager m) {
 
             sf::Image image;
-            image.loadFromFile("static/levels/crystalisles/test.png");
+            image.loadFromFile("static/levels/crystalcave/crystalcave.png");
             sf::Vector2u size = image.getSize();
             sf::Color color;
 
-            LayerReader layerReader = LayerReader("static/levels/crystalisles/test.txt");
+            LayerReader layerReader = LayerReader("static/levels/crystalcave/crystalcave.txt");
 
             // Loop through each pixel in the image
             for (int i = 0; i < size.x; i++) {
@@ -152,13 +152,11 @@ class CrystalCave : public Level {
         //then I can just create more enemies 
         void updateEnemies(int tick, TextureManager m, sf::RenderWindow* window) {
 
-
             spawnEnemies(m, window, tick);
             update(tick);
             enemyAI(tick);
             render(window);
 
-            
         }
 
 
@@ -173,29 +171,31 @@ class CrystalCave : public Level {
         void spawnEnemies(TextureManager m, sf::RenderWindow* window, int tick) {
 
             //Creates enemies while this is under the cap of enemies that should be near the player
-            while( enemies.size() < 2) {
-                int enemySelection = (1 + rand() % 2);
-                float x = player.getPosition().x + ( (rand() % 350) * (-1 + rand() % 2) );    
-                float y = player.getPosition().y + ( (rand() % 350) * (-1 + rand() % 2) );  
-                sf::Vector2f enemyPos = sf::Vector2f(x, y);
-                switch (enemySelection) {
-                    case 1: {
-                        Ghost *g = new Ghost(&m, &this->player);
-                        g->setPosition(enemyPos);
-                        g->render(window);
-                        addEnemies(g);
-                        break; 
+            //if(tick > 300) {
+                while( enemies.size() < 2) {
+                    int enemySelection = (1 + rand() % 2);
+                    float x = player.getPosition().x + ( (rand() % 350) * (-1 + rand() % 2) );    
+                    float y = player.getPosition().y + ( (rand() % 350) * (-1 + rand() % 2) );  
+                    sf::Vector2f enemyPos = sf::Vector2f(x, y);
+                    switch (enemySelection) {
+                        case 1: {
+                            Ghost *g = new Ghost(&m, &this->player);
+                            g->setPosition(enemyPos);
+                            g->render(window);
+                            addEnemies(g);
+                            break; 
+                        }
+                        case 2: 
+                            //Create another enemy class here for later.
+                            Golem *go = new Golem(&m, &this->player);
+                            go->setPosition(enemyPos);
+                            go->render(window);
+                            addEnemies(go);
+                            break; 
                     }
-                    case 2: 
-                        //Create another enemy class here for later.
-                        Golem *go = new Golem(&m, &this->player);
-                        go->setPosition(enemyPos);
-                        go->render(window);
-                        addEnemies(go);
-                        break; 
-                }
 
-            }
+                }
+            //}
 
 
 

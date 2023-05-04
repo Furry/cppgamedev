@@ -52,11 +52,11 @@ class Dungeon : public Level {
         void renderMap(sf::Sprite sprite, sf::RenderWindow* window, TextureManager m) {
 
             sf::Image image;
-            image.loadFromFile("static/levels/spirit/layer1.png");
+            image.loadFromFile("static/levels/dungeon/dungeon.png");
             sf::Vector2u size = image.getSize();
             sf::Color color;
 
-            LayerReader layerReader = LayerReader("static/levels/spirit/layer1.txt");
+            LayerReader layerReader = LayerReader("static/levels/dungeon/dungeon.txt");
 
 
             // Loop through each pixel in the image
@@ -68,7 +68,7 @@ class Dungeon : public Level {
                     if (index != -1) {
                         sprite.setPosition(i * 32, j * 32);
                         sprite.setTexture(
-                            *m.getTexture("parasiteDenObjects8x8", layerReader.getTile(color.r, color.g, color.b, color.a)));
+                            *m.getTexture("mountainTempleObjects8x8", layerReader.getTile(color.r, color.g, color.b, color.a)));
                         window->draw(sprite);
                     }
                 }
