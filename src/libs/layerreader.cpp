@@ -10,10 +10,10 @@ LayerReader::LayerReader(std::string file_name) {
     std::string line;
     int y = 0;
 
-    std::cout << "Reading layer file " << file_name << std::endl;
+    //std::cout << "Reading layer file " << file_name << std::endl;
     while (std::getline(file, line)) {
         
-        std::cout << "Line: " << line << std::endl;
+        //std::cout << "Line: " << line << std::endl;
 
         // Split line by space, the first split is the color, the second is the tile.
         std::string color = line.substr(0, line.find(" "));

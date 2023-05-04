@@ -25,3 +25,22 @@ Ender:
  - Game:
     - Game thread
     - Render thread
+
+Project Checkin (5/4/2023)
+
+Andrew: 
+ - Levels:
+    - Added level shifting
+    - CrystalCave PNG map layer
+    - Dungeon PNG map layer
+    - Implemented Dungeon Level
+    - Implemented Hell Level
+ - Misc:
+    - Clear Enemies function
+
+Ender:
+ - Levels:
+    - Implemented the PNG to sprite grid ahndler
+    - Modified the 'You Died' screen
+    - Started implementation on a pause menu (escape)
+    - Started work on the final 'hell' level layer

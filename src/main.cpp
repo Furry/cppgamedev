@@ -10,56 +10,13 @@
 #include "libs/ticker.h"
 #include "libs/layerreader.h"
 #include "core/level/crystalcave.cpp"
-//#include "core/entities/enemy/ghost.cpp"
+#include "core/level/dungeon.cpp"
+#include "core/level/hell.cpp"
+#include "./ui.h"
 
 #include <sstream>
 
 using namespace std;
-
-void pauseGame(sf::RenderWindow *window) {
-    // Reset the view to the default view
-    sf::View defaultView = window->getDefaultView();
-    window->setView(defaultView);
-    window->clear();
-
-
-    sf::RectangleShape background(sf::Vector2f(window->getSize().x, window->getSize().y));
-    background.setFillColor(sf::Color(0, 0, 0, 255));
-    window->draw(background);
-
-    // Set up the "Game Over" text
-    sf::Font font;
-    if (!font.loadFromFile("fonts/arial.ttf")) {
-        std::cout << "Error loading font" << std::endl;
-    }
-
-    sf::Text pauseText;
-    pauseText.setFont(font);
-    pauseText.setString("Paused");
-    pauseText.setCharacterSize(64);
-    pauseText.setFillColor(sf::Color::White);
-    pauseText.setStyle(sf::Text::Bold);
-
-    // Center the "Game Over" text on the window
-    sf::FloatRect textRect = pauseText.getLocalBounds();
-    pauseText.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
-    pauseText.setPosition(sf::Vector2f(window->getSize().x / 2.0f, window->getSize().y / 3.0f));
-
-    window->draw(pauseText);
-    window->display();
-
-    sf::Event event;
-    while (window->waitEvent(event)) {
-        if (event.type == sf::Event::Closed || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
-            window->close();
-            break;
-        }
-        // If escape key down, break out of the loop
-        if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) {
-            return;
-        }
-    }
-}
 
 
 // https://www.fesliyanstudios.com/royalty-free-music/downloads-c/8-bit-music/6 from here!
@@ -81,8 +38,8 @@ bool playBackgroundMusic() {
 
 int main() {
 
-    //This is just to test if I can display integers and strings
-    int testPrintIntBoard = 4;
+    //This is to control which level is being generated
+    int levelControl = 1;
 
     sf::RenderWindow window(sf::VideoMode(800, 800), "SFML works even better uwu!");
 
@@ -94,15 +51,10 @@ int main() {
     // std::vector<int> atlasIndices = (std::vector<int>) {165, 166, 167, 168, 169};
     TextureManager m = game.getTextureManager();
     Player player = Player(&m);
-    CrystalCave lvl = CrystalCave(0, &player);
+    CrystalCave ccLvl = CrystalCave(0, &player);
+    Dungeon dungeonLvl = Dungeon(0, &player);
+    Hell hellLvl = Hell(0, &player);
 
-    // Load the png from /static/levels/spirit/layer1.png and read it pixel by pixel
-    sf::Image image;
-    image.loadFromFile("static/levels/spirit/layer1.png");
-    sf::Vector2u size = image.getSize();
-    sf::Color color;
-
-    LayerReader layerReader = LayerReader("static/levels/spirit/layer1.txt");
 
     m.load("SakuraEnvironment8x8", 8, 8);
     m.load("crystalCaveObjects8x8", 8, 8);
@@ -110,11 +62,11 @@ int main() {
     m.load("chars8x8dEncounters", 8, 8);
     m.load("parasiteDenObjects8x8", 8, 8);
 
-    // playBackgroundMusic();
-    lvl.start();
+    playBackgroundMusic();
+    //ccLvl.start();    //Is this even needed anymore ?
 
     sf::Sprite sprite;
-    sprite.setTexture(*m.getTexture("crystalCaveObjects8x8", 165));
+    //sprite.setTexture(*m.getTexture("crystalCaveObjects8x8", 165));   //This one isn't even needed
 
     player.stats.speed = 6;
     int tally = 0;
@@ -133,22 +85,26 @@ int main() {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
             // player.setPosition(sf::Vector2f(player.getPosition().x, player.getPosition().y - 1));
             // player.move(Direction::UP);
-            lvl.getPlayer().pMove(Direction::UP);
+            //ccLvl.getPlayer().pMove(Direction::UP);
+            player.pMove(Direction::UP);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
             // player.setPosition(sf::Vector2f(player.getPosition().x, player.getPosition().y + 1));
             // player.move(Direction::DOWN);
-            lvl.getPlayer().pMove(Direction::DOWN);
+            //ccLvl.getPlayer().pMove(Direction::DOWN);
+            player.pMove(Direction::DOWN);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
             // player.setPosition(sf::Vector2f(player.getPosition().x - 1, player.getPosition().y));
             // player.move(Direction::LEFT);
-            lvl.getPlayer().pMove(Direction::LEFT);
+            //ccLvl.getPlayer().pMove(Direction::LEFT);
+            player.pMove(Direction::LEFT);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
             // player.setPosition(sf::Vector2f(player.getPosition().x + 1, player.getPosition().y));
             // player.move(Direction::RIGHT);
-            lvl.getPlayer().pMove(Direction::RIGHT);
+            //ccLvl.getPlayer().pMove(Direction::RIGHT);
+            player.pMove(Direction::RIGHT);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
             // Get position of mouse relative to window
@@ -159,21 +115,33 @@ int main() {
             // Get position of mouse relative to player
             sf::Vector2f mousePosPlayer = window.mapPixelToCoords(mousePos, player.getView());
             // lvl.getPlayer().castDefaultSpell(mousePosPlayer, &lvl);
-            lvl.nova(mousePosPlayer);
+            ccLvl.nova(mousePosPlayer);
+        }
+        std::cout << "Player health: " << player.stats.health << std::endl;
+        if (player.stats.health < 0) {
+            displayGameOverScreen(&window);
         }
         // If escape pressed, pause the game
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-            pauseGame(&window);
+            displayPauseGame(&window);
         }
 
-        // printf("Event: %d", event.type);
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
+            levelControl = 1;
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
+            levelControl = 2;
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::C)) {
+            levelControl = 3;
+        }
 
         // Move the view to the player
         window.setView(player.getView());
 
         window.clear();
 
-        player.update(tally, lvl);
+        player.update(tally, ccLvl);
 
     
         // Scale the sprite and draw it across the screen
@@ -181,39 +149,28 @@ int main() {
         sprite.setPosition(0, 0);
         // window.draw(sprite);
 
-        // Loop through each pixel in the image
-        for (int i = 0; i < size.x; i++) {
-            for (int j = 0; j < size.y; j++) {
-                // Print the RGB
-                color = image.getPixel(i, j);
-                int index = layerReader.getTile(color.r, color.g, color.b, color.a);
-                if (index != -1) {
-                    sprite.setPosition(i * 32, j * 32);
-                    sprite.setTexture(
-                        *m.getTexture("parasiteDenObjects8x8", layerReader.getTile(color.r, color.g, color.b, color.a)));
-                    window.draw(sprite);
-                }
-            }
+
+
+        if(levelControl == 1) {    //This is crystal isles level
+            ccLvl.renderMap(sprite, &window, m);
+            ccLvl.updateEnemies(tally, m, &window); 
+            dungeonLvl.clearEnemies();
+            hellLvl.clearEnemies();
+        }
+        else if(levelControl == 2) {   //This is dungeon level
+            //dungeonLevel.renderMap(sprite, &window, m)
+            //dungeonLvl.updateEnemies(tally, m, &window); 
+            ccLvl.clearEnemies();
+            hellLvl.clearEnemies();
+        }
+        else {  //This is hell level
+            hellLvl.renderMap(sprite, &window, m);
+            //hellLvl.updateEnemies(tally, m, &window); 
+            ccLvl.clearEnemies();
+            dungeonLvl.clearEnemies();
         }
 
-        /** pt board
-        sf::RectangleShape board;
-        board.setSize( sf::Vector2f(200, 150) );
-        board.setFillColor( sf::Color::Black);
-        board.setPosition( lvl.getPlayer().getPosition().x + 300, lvl.getPlayer().getPosition().y - 400);
-        window.draw(board);*/
-
-
-        sf::Text textTest;
-        std::stringstream ss; //#include <sstream>  https://en.sfml-dev.org/forums/index.php?topic=8368.0
-        ss << testPrintIntBoard;
-
-        textTest.setString( ss.str().c_str() );
-
-        window.draw( textTest );
-
-        lvl.updateEnemies(tally, m, &window);  //Something being added here
-        //lvl.enemyAI();
+        
         player.render(&window);
         player.renderHud(&window);
         window.display();

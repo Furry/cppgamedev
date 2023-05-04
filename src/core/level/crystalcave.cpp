@@ -9,6 +9,21 @@
 #include "../entities/spells/spell.h"
 #include "../entities/spells/nova.cpp"
 
+#include <iostream>
+#include <fstream>
+#include "SFML/Graphics.hpp"
+#include "SFML/Audio.hpp"
+#include "../../libs/atlas.h"
+
+
+#include "../../libs/ticker.h"
+#include "../../libs/layerreader.h"
+
+
+#include <sstream>
+
+using namespace std;
+
 // Class CrystalCave inherits from Level
 class CrystalCave : public Level {
     private:
@@ -35,12 +50,34 @@ class CrystalCave : public Level {
             this->textureManager = new TextureManager();
         }
 
+        void renderMap(sf::Sprite sprite, sf::RenderWindow* window, TextureManager m) {
+
+            sf::Image image;
+            image.loadFromFile("static/levels/crystalisles/test.png");
+            sf::Vector2u size = image.getSize();
+            sf::Color color;
+
+            LayerReader layerReader = LayerReader("static/levels/crystalisles/test.txt");
+
+            // Loop through each pixel in the image
+            for (int i = 0; i < size.x; i++) {
+                for (int j = 0; j < size.y; j++) {
+                    // Print the RGB
+                    color = image.getPixel(i, j);
+                    int index = layerReader.getTile(color.r, color.g, color.b, color.a);
+                    if (index != -1) {
+                        sprite.setPosition(i * 32, j * 32);
+                        sprite.setTexture( *m.getTexture("crystalCaveObjects8x8", layerReader.getTile(color.r, color.g, color.b, color.a)));
+                        window->draw(sprite);
+                    }
+                }
+            }
+        }
+
         void render(sf::RenderWindow* window) {
             for (int i = 0; i < enemies.size(); i++) {
                 //entities[i]->render(window);
                 enemies[i]->render(window);
-                //enemies[i]->randomHeaderTest();
-                //enemies[i]->move();
             }
 
             // Render spells
@@ -53,7 +90,6 @@ class CrystalCave : public Level {
 
         void addEntity(Entity *entity) {
             this->entities.push_back(entity);
-            //When creating a new enemy, set its coordinates to randomly be within a 50 block radius of the player
         }
 
         void addEnemies(Enemy *enemy){
@@ -117,33 +153,20 @@ class CrystalCave : public Level {
         void updateEnemies(int tick, TextureManager m, sf::RenderWindow* window) {
 
 
-            // spawnEnemies(m, window, tick);
-            // update(tick);
-            // enemyAI(tick);
-            // render(window);
+            spawnEnemies(m, window, tick);
+            update(tick);
+            enemyAI(tick);
+            render(window);
 
             
         }
 
 
-        //Maybe a parameter needs to be called even if it has nothing to do w/ the functions inside of it 
-        //so it doesn't fall out of scope or something like that ????
         void enemyAI(int tick){
 
-            //From the tests done on this so far, I've determined that the loop works and there's definitely something going on 
-            //because the print functions work, but whenever I try to call a function to one of the enemies[i], then it doesn't work
-            //and nothing is called when the function is meant to be called ??? Idky the print func isn't working or the function in general.
-            //Sobbing, I hate working on code at almost 3am, I should've gotten tipsy and slammed energy drinks altho they do nothing anymore.
-
-
-            //std::cout << "Is the enemy AI actually trying to call something or does it do jackshit" << std::endl;
             for(int i = 0; i < enemies.size(); i++){
-                //std::cout << "Loop function somehow worked" << std::endl;
                 enemies[i]->eMove();
-                //std::cout << "This broke before attack" << std::endl;
                 enemies[i]->attack();
-
-                //enemies[i]->randomHeaderTest(*this);
             }
         }
 
@@ -152,15 +175,14 @@ class CrystalCave : public Level {
             //Creates enemies while this is under the cap of enemies that should be near the player
             while( enemies.size() < 2) {
                 int enemySelection = (1 + rand() % 2);
-                float x = player.getPosition().x + ( (rand() % 350) * (-1 + rand() % 2) );    //Need to add a negative random maybe ( -1 + rand() % 2)
-                float y = player.getPosition().y + ( (rand() % 350) * (-1 + rand() % 2) );  //Need to add a negative random maybe ( -1 + rand() % 2)
+                float x = player.getPosition().x + ( (rand() % 350) * (-1 + rand() % 2) );    
+                float y = player.getPosition().y + ( (rand() % 350) * (-1 + rand() % 2) );  
                 sf::Vector2f enemyPos = sf::Vector2f(x, y);
                 switch (enemySelection) {
                     case 1: {
                         Ghost *g = new Ghost(&m, &this->player);
                         g->setPosition(enemyPos);
                         g->render(window);
-                        //g->update(tick, *this);
                         addEnemies(g);
                         break; 
                     }
@@ -169,7 +191,6 @@ class CrystalCave : public Level {
                         Golem *go = new Golem(&m, &this->player);
                         go->setPosition(enemyPos);
                         go->render(window);
-                        //g->update(tick, *this);
                         addEnemies(go);
                         break; 
                 }
@@ -178,6 +199,10 @@ class CrystalCave : public Level {
 
 
 
+        }
+
+        void clearEnemies() {
+            enemies.clear();
         }
 
         void stop() {
@@ -198,7 +223,6 @@ class CrystalCave : public Level {
 
         void nova(sf::Vector2f position) {
             Nova *n = new Nova(position);
-            //this->spells.push_back(n);
             addSpells(n);
         }
 };
