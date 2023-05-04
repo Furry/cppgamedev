@@ -12,56 +12,11 @@
 #include "core/level/crystalcave.cpp"
 #include "core/level/dungeon.cpp"
 #include "core/level/hell.cpp"
-
+#include "./ui.h"
 
 #include <sstream>
 
 using namespace std;
-
-void pauseGame(sf::RenderWindow *window) {
-    // Reset the view to the default view
-    sf::View defaultView = window->getDefaultView();
-    window->setView(defaultView);
-    window->clear();
-
-
-    sf::RectangleShape background(sf::Vector2f(window->getSize().x, window->getSize().y));
-    background.setFillColor(sf::Color(0, 0, 0, 255));
-    window->draw(background);
-
-    // Set up the "Game Over" text
-    sf::Font font;
-    if (!font.loadFromFile("fonts/arial.ttf")) {
-        std::cout << "Error loading font" << std::endl;
-    }
-
-    sf::Text pauseText;
-    pauseText.setFont(font);
-    pauseText.setString("Paused");
-    pauseText.setCharacterSize(64);
-    pauseText.setFillColor(sf::Color::White);
-    pauseText.setStyle(sf::Text::Bold);
-
-    // Center the "Game Over" text on the window
-    sf::FloatRect textRect = pauseText.getLocalBounds();
-    pauseText.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
-    pauseText.setPosition(sf::Vector2f(window->getSize().x / 2.0f, window->getSize().y / 3.0f));
-
-    window->draw(pauseText);
-    window->display();
-
-    sf::Event event;
-    while (window->waitEvent(event)) {
-        if (event.type == sf::Event::Closed || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
-            window->close();
-            break;
-        }
-        // If escape key down, break out of the loop
-        if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) {
-            return;
-        }
-    }
-}
 
 
 // https://www.fesliyanstudios.com/royalty-free-music/downloads-c/8-bit-music/6 from here!
@@ -162,9 +117,13 @@ int main() {
             // lvl.getPlayer().castDefaultSpell(mousePosPlayer, &lvl);
             ccLvl.nova(mousePosPlayer);
         }
+        std::cout << "Player health: " << player.stats.health << std::endl;
+        if (player.stats.health < 0) {
+            displayGameOverScreen(&window);
+        }
         // If escape pressed, pause the game
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-            pauseGame(&window);
+            displayPauseGame(&window);
         }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
