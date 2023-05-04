@@ -29,7 +29,7 @@ class Golem : public Enemy {
             //this->sprite.setTexture(*this->textureManager.getTexture("lofiChar", 15));
         }
         ~Golem() {
-            std::cout << "Golem destroyed" << std::endl;
+            //std::cout << "Golem destroyed" << std::endl;
             //Maybe add player pts once this is deconstructed 
             this->player.pts += 1;
         }

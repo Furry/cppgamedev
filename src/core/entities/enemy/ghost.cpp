@@ -5,8 +5,6 @@
 #include "enemy.h"
 #include "../player/player.h"
 #include "../../level/level.h"
-//#include "../../level/crystalcave.cpp"
-
 
 
 class Ghost : public Enemy {
@@ -29,16 +27,8 @@ class Ghost : public Enemy {
             this->player.pts += 1;
         }
         
-        //For some reason this doesn't like me getting player from level, so I need to figure out why the reference
-        //point isn't working out.
-        //Initially fixed it w/ Level& level, not working now tho....
         void update(int tick, Level level){ 
-            //std::cout << "Setting texture for the ghost as demo" << std::endl; //this is working just fine, and is being called
-            //even in main and for the crystalcave.cpp
-            //this->player = level.getPlayer(); //I was trying to access the pointer to player through the level.h
-            //but it didn't work so I just decide to declare it within the levels itself.
-            //this->sprite.setTexture(*this->textureManager.getTexture("lofiChar", 31));
-            this->sprite.setTexture(*this->textureManager.getTexture("chars8x8dEncounters", 350));
+            this->sprite.setTexture(*this->textureManager.getTexture("chars8x8dEncounters", 350));  //I wonder if I can put this in the constructor
             this->tick = tick;
 
             //Maybe implement something here to see if the enemies health is 0, and if it is then deconstruct the class
@@ -79,9 +69,6 @@ class Ghost : public Enemy {
         void pMove(Direction direction) {};
 
         void eMove(){
-            //Why isn't this working when its being called for ???
-            //std::cout << "Ghost is doing something to try to move" << std::endl;
-            //Enemy x coordinate movement in accordinate to player x pos
             if( this->position.x < player.getPosition().x ) {
                 this->position.x += this->stats.speed;
 
@@ -104,23 +91,17 @@ class Ghost : public Enemy {
 
         void attack(){
 
-            //std::cout << "Ghost is activating the atk function" << std::endl;
-
             float def = player.stats.defense;
             float dmgRed = def / (def + 100); //Damage reduction formula
             float luck = player.stats.luck;
 
-            if( distance() < 10 && tick % 10 == 0){ //Also add modulo tick eventually ig, add 3x longer modulo for ranged enemies 
-                //std::cout << "Ghost is within reach to atk the player and is currently trying to atk them" << std::endl;
+            if( distance() < 10 && tick % 10 == 0){ //Enemy attacks if the player distance is less than 10 & module 10 tick
                 if( (1 + rand() % 30) > luck) { //If player's luck is greater than they dodge the atk, max player luck is 20
-                    //std::cout << "Ghost passed luck check and attacking player" << std::endl;
                     float dmg = dmgRed * this->stats.strength;
                     if(dmg < 1){
                         dmg = 1;
                     }
                     this->player.stats.health -= dmg;
-                    //Figure out a way to display the dmg above the player's health bar 
-                    //std::cout << "This is the player's health " << this->player.stats.health << std::endl;
                 }
             }
             

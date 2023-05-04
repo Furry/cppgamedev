@@ -32,8 +32,6 @@ class Enemy : public Entity {
         sf::Sprite getSprite() {};
         sf::Vector2f getPosition() {};
 
-        //void randomHeaderTest(Level level) {};
-
         //Enemy movement
         void eMove() {};
         void pMove(Direction direction) {};
