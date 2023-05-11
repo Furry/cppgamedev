@@ -24,7 +24,7 @@ class Golem : public Enemy {
             this->textureManager = *textureManager;
             this->sprite = sf::Sprite();
             this->sprite.setScale(5,5);
-            this->stats = {20, 20, 100, 100, 1, 1, 4, 1, 1, 1};
+            this->stats = {20, 20, 100, 100, 1, 1, 2, 1, 1, 1};
             this->player = *player;
             //this->sprite.setTexture(*this->textureManager.getTexture("lofiChar", 15));
         }
@@ -146,7 +146,7 @@ class Golem : public Enemy {
             float dmgRed = def / (def + 100); //Damage reduction formula
             float luck = player.stats.luck;
 
-            if( distance() < 10 && tick % 10 == 0){
+            if( distance() < 5 && tick % 20 == 0){
                 //std::cout << "Ghost is within reach to atk the player and is currently trying to atk them" << std::endl;
                 if( (1 + rand() % 20) > luck) { //If player's luck is greater than they dodge the atk
                     //std::cout << "Golem passed luck check and attacking player" << std::endl;

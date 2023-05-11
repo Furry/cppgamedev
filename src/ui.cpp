@@ -77,7 +77,6 @@ void displayPauseGame(sf::RenderWindow *window) {
     sf::Event event;
     while (window->waitEvent(event)) {
         if (event.type == sf::Event::Closed || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
-            window->close();
             break;
         }
         // If escape key down, break out of the loop

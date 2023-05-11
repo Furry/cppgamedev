@@ -20,7 +20,7 @@ class Ghost : public Enemy {
             this->textureManager = *textureManager;
             this->sprite = sf::Sprite();
             this->sprite.setScale(5,5);
-            this->stats = {20, 20, 100, 100, 1, 1, 4, 1, 1, 1};
+            this->stats = {20, 20, 100, 100, 1, 1, 3, 1, 1, 1};
             this->player = *player;
         }
         ~Ghost() {
@@ -121,7 +121,7 @@ class Ghost : public Enemy {
             float dmgRed = def / (def + 100); //Damage reduction formula
             float luck = player.stats.luck;
 
-            if( distance() < 10 && tick % 10 == 0){ //Enemy attacks if the player distance is less than 10 & module 10 tick
+            if( distance() < 5 && tick % 20 == 0){ //Enemy attacks if the player distance is less than 10 & module 10 tick
                 if( (1 + rand() % 30) > luck) { //If player's luck is greater than they dodge the atk, max player luck is 20
                     float dmg = dmgRed * this->stats.strength;
                     if(dmg < 1){
