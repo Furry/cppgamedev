@@ -10,7 +10,7 @@
 #include "../entities/enemy/snake.cpp"
 #include "../entities/enemy/enemy.h"
 #include "../entities/spells/spell.h"
-#include "../entities/spells/nova2.cpp"
+#include "../entities/spells/nova.h"
 #include "../entities/npc/hellKeeper.cpp"
 
 #include <iostream>
@@ -237,7 +237,7 @@ class Dungeon : public Level {
         }
 
         void nova(sf::Vector2f position) {
-            Nova2 *n = new Nova2(position);
+            Nova *n = new Nova(position);
             addSpells(n);
         }
 };
