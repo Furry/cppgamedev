@@ -38,6 +38,9 @@ bool playBackgroundMusic() {
 
 int main() {
 
+    int pauseDB = 200;  // Debounce time in milliseconds
+    sf::Clock debounceClock;  // Clock for measuring time between key presses
+
     //This is to control which level is being generated
     int levelControl = 1;
 
@@ -122,9 +125,15 @@ int main() {
         if (player.stats.health < 0) {
             displayGameOverScreen(&window);
         }
+
         // If escape pressed, pause the game
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-            displayPauseGame(&window);
+            sf::Time elapsed = debounceClock.getElapsedTime();
+
+            if (elapsed.asMilliseconds() >= pauseDB) {
+                displayPauseGame(&window);
+                debounceClock.restart();
+            }
         }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
