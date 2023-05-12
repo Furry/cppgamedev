@@ -17,7 +17,7 @@ class Nova : public Spell {
     public:
         Nova(sf::Vector2f position) {
             this->position = position;
-            this->explosion.setRadius(10);
+            this->explosion.setRadius(30);
             this->explosion.setPosition(position);
             this->explosion.setFillColor(sf::Color::Yellow);
         }

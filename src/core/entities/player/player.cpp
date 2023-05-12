@@ -8,7 +8,7 @@
 // add default
 Stats createStats() {
     return Stats  {
-        8, 8, 100, 100, 1, 25, 1, 1, 1, 1
+        100000000, 8, 100, 100, 1, 25, 1, 1, 1, 1
     };
 }
 
@@ -29,7 +29,7 @@ Player::Player(TextureManager *textureManager) {
 
 void Player::update(int tick, Level level) {
     if (tick == 1) {
-        std::cout << "Setting texture to 15" << std::endl;
+        //std::cout << "Setting texture to 15" << std::endl;
         this->sprite.setTexture(*this->textureManager.getTexture("lofiChar", 15));
     }
 

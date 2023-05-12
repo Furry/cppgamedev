@@ -20,15 +20,17 @@ class Ghost : public Enemy {
             this->textureManager = *textureManager;
             this->sprite = sf::Sprite();
             this->sprite.setScale(5,5);
+            this->sprite.setTexture(*this->textureManager.getTexture("chars8x8dEncounters", 350));  //I wonder if I can put this in the constructor
             this->stats = {20, 20, 100, 100, 1, 1, 3, 1, 1, 1};
             this->player = *player;
         }
+        
         ~Ghost() {
             this->player.pts += 1;
         }
         
         void update(int tick, Level level){ 
-            this->sprite.setTexture(*this->textureManager.getTexture("chars8x8dEncounters", 350));  //I wonder if I can put this in the constructor
+            //this->sprite.setTexture(*this->textureManager.getTexture("chars8x8dEncounters", 350));  //I wonder if I can put this in the constructor
             this->tick = tick;
 
             //Maybe implement something here to see if the enemies health is 0, and if it is then deconstruct the class
@@ -82,7 +84,7 @@ class Ghost : public Enemy {
             window->draw(healthText);
         }
 
-        int distance() {
+        float distance() {
             sf::Vector2f playerPos = this->player.getPosition();
             sf::Vector2f enemyPos = this->position;
 

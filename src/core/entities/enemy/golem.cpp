@@ -24,28 +24,19 @@ class Golem : public Enemy {
             this->textureManager = *textureManager;
             this->sprite = sf::Sprite();
             this->sprite.setScale(5,5);
+            this->sprite.setTexture(*this->textureManager.getTexture("chars8x8dEncounters", 364));
             this->stats = {20, 20, 100, 100, 1, 1, 2, 1, 1, 1};
             this->player = *player;
-            //this->sprite.setTexture(*this->textureManager.getTexture("lofiChar", 15));
         }
+
         ~Golem() {
-            //std::cout << "Golem destroyed" << std::endl;
-            //Maybe add player pts once this is deconstructed 
             this->player.pts += 1;
         }
         
-        //For some reason this doesn't like me getting player from level, so I need to figure out why the reference
-        //point isn't working out.
-        //Initially fixed it w/ Level& level, not working now tho....
         void update(int tick, Level level){ 
-            //std::cout << "Setting texture for the ghost as demo" << std::endl; //this is working just fine, and is being called
-            //even in main and for the crystalcave.cpp
-            //this->player = level.getPlayer(); //I was trying to access the pointer to player through the level.h
-            //but it didn't work so I just decide to declare it within the levels itself.
-            this->sprite.setTexture(*this->textureManager.getTexture("chars8x8dEncounters", 364));
+            //this->sprite.setTexture(*this->textureManager.getTexture("chars8x8dEncounters", 364));
             this->tick = tick;
 
-            //Maybe implement something here to see if the enemies health is 0, and if it is then deconstruct the class
             if( this->stats.health == 0){
                 delete this;
             }
@@ -96,7 +87,7 @@ class Golem : public Enemy {
             window->draw(healthText);
         }
 
-        int distance() {
+        float distance() {
             int xPlayerEnemyDist = abs(this->position.x - this->player.getPosition().x);
             int yPlayerEnemyDist = abs(this->position.y - this->player.getPosition().y);
             int playerEnemyDist = sqrt( (xPlayerEnemyDist)^2 + (yPlayerEnemyDist)^2 );

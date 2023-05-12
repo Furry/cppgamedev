@@ -118,7 +118,7 @@ int main() {
             // lvl.getPlayer().castDefaultSpell(mousePosPlayer, &lvl);
             ccLvl.nova(mousePosPlayer);
         }
-        std::cout << "Player health: " << player.stats.health << std::endl;
+        //std::cout << "Player health: " << player.stats.health << std::endl;
         if (player.stats.health < 0) {
             displayGameOverScreen(&window);
         }
@@ -153,10 +153,26 @@ int main() {
 
 
         if(levelControl == 1) {    //This is crystal isles level
+            bool renderQuestion = false;
             ccLvl.renderMap(sprite, &window, m);
+            //ccLvl.render(&window);
+            //ccLvl.update(tally);
             ccLvl.updateEnemies(tally, m, &window); 
             dungeonLvl.clearEnemies();
             hellLvl.clearEnemies();
+
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::T) ) {
+                renderQuestion = true;
+            }
+
+            if(renderQuestion) {
+                ccLvl.dungeonKeeper.renderQuestion(&window, player.pts);
+            }
+
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Y) && player.pts >= 5) {
+                levelControl = 2;
+            }
+
         }
         else if(levelControl == 2) {   //This is dungeon level
             dungeonLvl.renderMap(sprite, &window, m);
@@ -170,6 +186,22 @@ int main() {
             ccLvl.clearEnemies();
             dungeonLvl.clearEnemies();
         }
+
+
+        //Work on stopping player movement's when the npc screen is open 
+
+        //if( player.pts >= 5) {  //This allows for the player to go to the next level
+        //    dungeonLvl.renderMap(sprite, &window, m);
+        //    //dungeonLvl.updateEnemies(tally, m, &window); 
+        //    ccLvl.clearEnemies();
+        //    hellLvl.clearEnemies();
+        //}
+        //if( player.pts >= 10) { //This allows for the player to go to the 3rd level
+        //    hellLvl.renderMap(sprite, &window, m);
+        //    //hellLvl.updateEnemies(tally, m, &window); 
+        //    ccLvl.clearEnemies();
+        //    dungeonLvl.clearEnemies();
+        //}
 
         
         player.render(&window);

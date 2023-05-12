@@ -8,6 +8,7 @@
 #include "../entities/enemy/enemy.h"
 #include "../entities/spells/spell.h"
 #include "../entities/spells/nova.cpp"
+#include "../entities/npc/dungeonKeeper.cpp"
 
 #include <iostream>
 #include <fstream>
@@ -35,13 +36,14 @@ class CrystalCave : public Level {
         std::vector<Entity*> entities;
         std::vector<Enemy*> enemies;
         std::vector<Spell*> spells;
-
         Player &player;
+        //DungeonKeeper &dungeonKeeper;
         int seed;
     public:
         TextureManager *textureManager;
+        DungeonKeeper dungeonKeeper;
 
-        CrystalCave(int seed, Player *player) : player(*player) {
+        CrystalCave(int seed, Player *player) : player(*player), dungeonKeeper(dungeonKeeper) {
             this->seed = seed;
             this->player = *player;
             this->perlin = Perlin(seed);
@@ -72,6 +74,13 @@ class CrystalCave : public Level {
                     }
                 }
             }
+            
+            this->dungeonKeeper = DungeonKeeper(&m);
+
+            float x = 200;
+            float y = 200;
+            sf::Vector2f keeperPos = sf::Vector2f(x, y);
+            this->dungeonKeeper.setPosition( keeperPos );
         }
 
         void render(sf::RenderWindow* window) {
@@ -84,6 +93,9 @@ class CrystalCave : public Level {
             for (int i = 0; i < spells.size(); i++) {
                 spells[i]->render(window);
             }
+
+            this->dungeonKeeper.render(window);
+
         }
 
         void renderAt(sf::RenderWindow* window, sf::Vector2f position);
@@ -145,6 +157,8 @@ class CrystalCave : public Level {
                 }
                 spells[i]->update(tick, *this);
             }
+
+            this->dungeonKeeper.updatePlayerPos( this->player.getPosition() );
         }
 
 
@@ -171,7 +185,7 @@ class CrystalCave : public Level {
         void spawnEnemies(TextureManager m, sf::RenderWindow* window, int tick) {
 
             //Creates enemies while this is under the cap of enemies that should be near the player
-            //if(tick > 300) {
+            if(tick > 300) {
                 while( enemies.size() < 2) {
                     int enemySelection = (1 + rand() % 2);
                     float x = player.getPosition().x + ( (rand() % 350) * (-1 + rand() % 2) );    
@@ -195,7 +209,7 @@ class CrystalCave : public Level {
                     }
 
                 }
-            //}
+            }
 
 
 
