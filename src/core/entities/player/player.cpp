@@ -8,7 +8,7 @@
 // add default
 Stats createStats() {
     return Stats  {
-        100000000, 8, 100, 100, 1, 25, 1, 1, 1, 1
+        8, 8, 100, 100, 1, 25, 1, 1, 1, 1
     };
 }
 

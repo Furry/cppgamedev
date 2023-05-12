@@ -37,7 +37,6 @@ class CrystalCave : public Level {
         std::vector<Enemy*> enemies;
         std::vector<Spell*> spells;
         Player &player;
-        //DungeonKeeper &dungeonKeeper;
         int seed;
     public:
         TextureManager *textureManager;
@@ -158,7 +157,7 @@ class CrystalCave : public Level {
                 spells[i]->update(tick, *this);
             }
 
-            this->dungeonKeeper.updatePlayerPos( this->player.getPosition() );
+            this->dungeonKeeper.updatePlayer( this->player.getPosition(), this->player.pts );
         }
 
 

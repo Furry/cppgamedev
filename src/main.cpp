@@ -155,8 +155,6 @@ int main() {
         if(levelControl == 1) {    //This is crystal isles level
             bool renderQuestion = false;
             ccLvl.renderMap(sprite, &window, m);
-            //ccLvl.render(&window);
-            //ccLvl.update(tally);
             ccLvl.updateEnemies(tally, m, &window); 
             dungeonLvl.clearEnemies();
             hellLvl.clearEnemies();
@@ -166,23 +164,35 @@ int main() {
             }
 
             if(renderQuestion) {
-                ccLvl.dungeonKeeper.renderQuestion(&window, player.pts);
+                ccLvl.dungeonKeeper.renderQuestion(&window);
             }
 
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Y) && player.pts >= 5) {
                 levelControl = 2;
             }
-
         }
         else if(levelControl == 2) {   //This is dungeon level
+            bool renderQuestion = false;
             dungeonLvl.renderMap(sprite, &window, m);
-            //dungeonLvl.updateEnemies(tally, m, &window); 
+            dungeonLvl.updateEnemies(tally, m, &window); 
             ccLvl.clearEnemies();
             hellLvl.clearEnemies();
+
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::T) ) {
+                renderQuestion = true;
+            }
+
+            if(renderQuestion) {
+                ccLvl.dungeonKeeper.renderQuestion(&window);
+            }
+
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Y) && player.pts >= 10) {
+                levelControl = 3;
+            }
         }
         else {  //This is hell level
             hellLvl.renderMap(sprite, &window, m);
-            //hellLvl.updateEnemies(tally, m, &window); 
+            hellLvl.updateEnemies(tally, m, &window); 
             ccLvl.clearEnemies();
             dungeonLvl.clearEnemies();
         }
