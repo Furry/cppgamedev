@@ -21,14 +21,9 @@ Player::Player(TextureManager *textureManager) {
     this->sprite = sf::Sprite();
     this->sprite.setScale(6, 6);
     this->stats = createStats();
+
     // Create a new view for the player
     this->view = sf::View(sf::Vector2f(400, 400), sf::Vector2f(800, 800));
-    // Print out the sprite manager
-
-    // this->sprite.setTexture(*this->textureManager.getTexture("lofiChar", 15));
-    // access the real value not the pointer
-    // sf::Texture initial = *this->textureManager.getTexture("lofiChar", 15);
-    // this->sprite.setTexture(textureManager.getTexture("lofiChar", 15));
 }
 
 void Player::update(int tick, Level level) {
@@ -178,19 +173,29 @@ void Player::renderHud(sf::RenderWindow* window) {
     window->draw(manaBar);
     window->draw(healthText);
 
-    //Draw's pt board
+    // Get the window size
+    sf::Vector2u windowSize = window->getSize();
+
+    // Save the current view
+    sf::View currentView = window->getView();
+
+    // Set the view to the default view
+    sf::View defaultView = window->getDefaultView();
+    window->setView(defaultView);
+
+    // Draw's pt board
     sf::RectangleShape board;
     board.setSize( sf::Vector2f(75, 50) );
     board.setFillColor( sf::Color::Black);
-    board.setPosition( this->position.x + 330, this->position.y - 400);
+    board.setPosition( windowSize.x - 75 - 10, 10); // Set position to the top-right corner with a 10px margin
     window->draw(board);
 
-    //Draw's pts on the pt board
+    // Draw's pts on the pt board
     sf::Font font;
     sf::Text textTest;
     font.loadFromFile("fonts/arial.ttf");
     textTest.setFont(font);
-    textTest.setPosition(this->position.x + 335, this->position.y - 390);
+    textTest.setPosition(windowSize.x - 75 - 10 + 5, 10 + 10); // Set position to the top-right corner with a 10px margin and 5px padding inside the box
     std::stringstream ss; //#include <sstream>  https://en.sfml-dev.org/forums/index.php?topic=8368.0
     ss << this->pts;
     textTest.setString( ss.str() );
@@ -199,4 +204,7 @@ void Player::renderHud(sf::RenderWindow* window) {
     //textTest.setStyle(sf::Text::Bold | sf::Text::Underlined);
     textTest.setStyle(sf::Text::Bold);
     window->draw( textTest );
+
+    // Restore the previous view
+    window->setView(currentView);
 }
