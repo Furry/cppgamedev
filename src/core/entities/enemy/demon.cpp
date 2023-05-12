@@ -49,7 +49,7 @@ class Demon : public Enemy {
 
         void render(sf::RenderWindow* window) {
             //std::cout << "Ghost is rendering" << std::endl;
-            this->sprite.setPosition(this->position);
+            this->sprite.setPosition(this->position.x - 15, this->position.y);
             window->draw(this->sprite);
 
             //Enemy hp bar
