@@ -5,6 +5,10 @@
 #include <iostream>
 #include <sstream> 
 
+bool isWithinBounds(float x, float y) {
+    return x >= 0 && x <= 2388 && y >= 0 && y <= 2352;
+}
+
 // add default
 Stats createStats() {
     return Stats  {
@@ -68,32 +72,39 @@ void Player::eMove() {
 }
 
 void Player::pMove(Direction direction){
+    float newX = this->position.x;
+    float newY = this->position.y;
+
     switch (direction) {
         case UP:
-            this->position.y -= this->stats.speed;
+            newY -= this->stats.speed;
             // Face the sprite to the left
-            // Flip the sprite's texture horizontally
             this->sprite.setOrigin(sprite.getLocalBounds().width / 2, 0);
             this->sprite.setScale(-6, 6);
             break;
         case DOWN:
-            this->position.y += this->stats.speed;
+            newY += this->stats.speed;
             // Face the sprite to the right
             this->sprite.setOrigin(sprite.getLocalBounds().width / 2, 0);
             this->sprite.setScale(6, 6);
             break;
         case LEFT:
-            this->position.x -= this->stats.speed;
+            newX -= this->stats.speed;
             // Face the sprite to the left
             this->sprite.setOrigin(sprite.getLocalBounds().width / 2, 0);
             this->sprite.setScale(-6, 6);
             break;
         case RIGHT:
-            this->position.x += this->stats.speed;
+            newX += this->stats.speed;
             // Face the sprite to the right
             this->sprite.setOrigin(sprite.getLocalBounds().width / 2, 0);
             this->sprite.setScale(6, 6);
             break;
+    }
+
+    if (isWithinBounds(newX, newY)) {
+        this->position.x = newX;
+        this->position.y = newY;
     }
 }
 

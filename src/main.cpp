@@ -18,6 +18,23 @@
 
 using namespace std;
 
+sf::Vector2f getRandomPositionWithinBounds() {
+    // Initialize random seed
+    std::srand(std::time(nullptr));
+
+    // Define the boundaries
+    const float minX = 100;
+    const float maxX = 2288;
+    const float minY = 100;
+    const float maxY = 2252;
+
+    // Generate random position within the specified bounds
+    float x = minX + static_cast<float>(std::rand()) / (static_cast<float>(RAND_MAX / (maxX - minX)));
+    float y = minY + static_cast<float>(std::rand()) / (static_cast<float>(RAND_MAX / (maxY - minY)));
+
+    return sf::Vector2f(x, y);
+}
+
 // https://www.fesliyanstudios.com/royalty-free-music/downloads-c/8-bit-music/6 from here!
 bool playBackgroundMusic() {
     static sf::Music backgroundMusic;
@@ -48,11 +65,9 @@ int main() {
     // ! Create game instance
     Game game(0);
 
-    // Level lvl = Level("crystalCaveObjects8x8", {165, 166, 167, 168, 169}, sf::Vector2f(400, 400), 0);
-    // Create inline vector of ints
-    // std::vector<int> atlasIndices = (std::vector<int>) {165, 166, 167, 168, 169};
     TextureManager m = game.getTextureManager();
     Player player = Player(&m);
+    player.setPosition(getRandomPositionWithinBounds());
     CrystalCave ccLvl = CrystalCave(0, &player);
     Dungeon dungeonLvl = Dungeon(0, &player);
     Hell hellLvl = Hell(0, &player);
@@ -66,17 +81,12 @@ int main() {
     m.load("mountainTempleObjects8x8", 8, 8);
 
     playBackgroundMusic();
-    //ccLvl.start();    //Is this even needed anymore ?
-
     sf::Sprite sprite;
-    //sprite.setTexture(*m.getTexture("crystalCaveObjects8x8", 165));   //This one isn't even needed
 
     player.stats.speed = 6;
     int tally = 0;
-    // int indx = 0;
+
     while (window.isOpen()) {
-        // print tally
-        // std::cout << "Tally: " << tally << std::endl;
         tally++;
         sf::Event event;
         while (window.pollEvent(event)) {
@@ -92,21 +102,12 @@ int main() {
             player.pMove(Direction::UP);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-            // player.setPosition(sf::Vector2f(player.getPosition().x, player.getPosition().y + 1));
-            // player.move(Direction::DOWN);
-            //ccLvl.getPlayer().pMove(Direction::DOWN);
             player.pMove(Direction::DOWN);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-            // player.setPosition(sf::Vector2f(player.getPosition().x - 1, player.getPosition().y));
-            // player.move(Direction::LEFT);
-            //ccLvl.getPlayer().pMove(Direction::LEFT);
             player.pMove(Direction::LEFT);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-            // player.setPosition(sf::Vector2f(player.getPosition().x + 1, player.getPosition().y));
-            // player.move(Direction::RIGHT);
-            //ccLvl.getPlayer().pMove(Direction::RIGHT);
             player.pMove(Direction::RIGHT);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
@@ -132,9 +133,8 @@ int main() {
                 default:
                     break;
             }
-            // ccLvl.nova(mousePosPlayer);
         }
-        //std::cout << "Player health: " << player.stats.health << std::endl;
+
         if (player.stats.health < 0) {
             displayGameOverScreen(&window);
         }
