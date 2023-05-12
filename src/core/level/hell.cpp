@@ -11,7 +11,7 @@
 #include "../entities/enemy/demon.cpp"
 #include "../entities/enemy/enemy.h"
 #include "../entities/spells/spell.h"
-//#include "../entities/spells/nova2.cpp"
+#include "../entities/spells/nova.h"
 //#include "../entities/npc/hellKeeper.cpp"
 
 #include <iostream>
@@ -225,8 +225,8 @@ class Hell : public Level {
             return this->spells;
         }
 
-        //void nova(sf::Vector2f position) {
-        //    Nova2 *n = new Nova2(position);
-        //    addSpells(n);
-        //}
+        void nova(sf::Vector2f position) {
+           Nova *n = new Nova(position);
+           addSpells(n);
+        }
 };

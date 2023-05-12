@@ -1,7 +1,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "player.h"
-#include "../spells/nova.cpp"
+#include "../spells/nova.h"
 #include <iostream>
 #include <sstream> 
 

@@ -18,7 +18,6 @@
 
 using namespace std;
 
-
 // https://www.fesliyanstudios.com/royalty-free-music/downloads-c/8-bit-music/6 from here!
 bool playBackgroundMusic() {
     static sf::Music backgroundMusic;
@@ -119,7 +118,21 @@ int main() {
             // Get position of mouse relative to player
             sf::Vector2f mousePosPlayer = window.mapPixelToCoords(mousePos, player.getView());
             // lvl.getPlayer().castDefaultSpell(mousePosPlayer, &lvl);
-            ccLvl.nova(mousePosPlayer);
+
+            switch (levelControl) {
+                case 1:
+                    ccLvl.nova(mousePosPlayer);
+                    break;
+                case 2:
+                    dungeonLvl.nova(mousePosPlayer);
+                    break;
+                case 3:
+                    hellLvl.nova(mousePosPlayer);
+                    break;
+                default:
+                    break;
+            }
+            // ccLvl.nova(mousePosPlayer);
         }
         //std::cout << "Player health: " << player.stats.health << std::endl;
         if (player.stats.health < 0) {

@@ -1,68 +1,50 @@
-#include <SFML/Graphics.hpp>
-#include "./spell.h"
-#include "../../level/level.h"
+#include "nova.h"
 #include <iostream>
 #include <cmath>
-#include <algorithm>>
+#include <algorithm>
 
-class Nova : public Spell {
+Nova::Nova(sf::Vector2f position) {
+    this->spellCost = 10;
+    this->ticksAlive = 0;
+    this->ticksToLive = 25;
+    this->position = position;
+    this->explosion.setRadius(30);
+    this->explosion.setPosition(position);
+    this->explosion.setFillColor(sf::Color::Yellow);
+    this->scaleFactor = 1.0f;
+}
 
-    private:
-        int spellCost = 10;
-        int ticksAlive = 0;
-        int ticksToLive = 25;
-        sf::Vector2f position;
-        sf::CircleShape explosion;
-        float scaleFactor = 1.0f;
-    public:
-        Nova(sf::Vector2f position) {
-            this->position = position;
-            this->explosion.setRadius(30);
-            this->explosion.setPosition(position);
-            this->explosion.setFillColor(sf::Color::Yellow);
-        }
+Nova::~Nova() {}
 
-    ~Nova() {}
+void Nova::render(sf::RenderWindow* window) {
+    window->draw(this->explosion);
+}
 
-    void render(sf::RenderWindow* window) {
-        window->draw(this->explosion);
+bool Nova::isDead() {
+    return this->ticksAlive >= this->ticksToLive;
+}
+
+void Nova::update(int tick, Level &level) {
+    this->ticksAlive++;
+
+    if (this->ticksAlive >= this->ticksToLive) {
+        return;
+    } else {
+        float deltaTime = 1.0f / 45.0f;
+        this->scaleFactor += 0.1f * deltaTime;
+        this->explosion.setScale(this->scaleFactor, this->scaleFactor);
+        this->explosion.setRadius(10 * this->scaleFactor);
+        this->explosion.setPosition(this->position - sf::Vector2f(this->explosion.getRadius(), this->explosion.getRadius()));
     }
+}
 
-    bool isDead() {
-        return this->ticksAlive >= this->ticksToLive;
-    }
+bool Nova::doesCollide(sf::Vector2f position) {
+    sf::Vector2f explosionPosition = this->position;
+    float explosionRadius = this->explosion.getRadius();
 
-    void update(int tick, Level &level) {
-        this->ticksAlive++;
+    float dx = explosionPosition.x - position.x;
+    float dy = explosionPosition.y - position.y;
+    float distanceSquared = dx * dx + dy * dy;
 
-        // Convert level to CrystalCave
-        // level.damageInRadius(this->position, 10 * this->scaleFactor, 10);
-
-        if (this->ticksAlive >= this->ticksToLive) {
-            // Delete itself inside of level
-            // this->~Nova(); // Call the destructor explicitly
-            return; // Ensure we don't execute further after destruction
-        } else {
-            // Update explosion size and position
-            float deltaTime = 1.0f / 45.0f; // assuming 45 fps
-            this->scaleFactor += 0.1f * deltaTime;
-            this->explosion.setScale(this->scaleFactor, this->scaleFactor);
-            this->explosion.setRadius(10 * this->scaleFactor); // Update the radius based on the scaleFactor
-            this->explosion.setPosition(this->position - sf::Vector2f(this->explosion.getRadius(), this->explosion.getRadius()));
-        }
-    }
-
-    bool doesCollide(sf::Vector2f position) {
-        sf::Vector2f explosionPosition = this->position;
-        float explosionRadius = this->explosion.getRadius();
-
-        // Calculate the distance between the given position and the explosion's center
-        float dx = explosionPosition.x - position.x;
-        float dy = explosionPosition.y - position.y;
-        float distanceSquared = dx * dx + dy * dy;
-
-        // Check if the distance is less than or equal to the explosion radius
-        return distanceSquared <= (explosionRadius * explosionRadius);
-    }
-
-};
+    return distanceSquared <= (explosionRadius * explosionRadius);
+}

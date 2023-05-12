@@ -7,7 +7,7 @@
 #include "../entities/enemy/golem.cpp"
 #include "../entities/enemy/enemy.h"
 #include "../entities/spells/spell.h"
-#include "../entities/spells/nova.cpp"
+#include "../entities/spells/nova.h"
 #include "../entities/npc/dungeonKeeper.cpp"
 
 #include <iostream>
