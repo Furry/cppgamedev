@@ -7,6 +7,7 @@
 
 #include "core/game.cpp"
 #include "core/level/level.h"
+#include "libs/utils.h"
 #include "libs/ticker.h"
 #include "libs/layerreader.h"
 #include "core/level/crystalcave.cpp"
@@ -17,23 +18,6 @@
 #include <sstream>
 
 using namespace std;
-
-sf::Vector2f getRandomPositionWithinBounds() {
-    // Initialize random seed
-    std::srand(std::time(nullptr));
-
-    // Define the boundaries
-    const float minX = 100;
-    const float maxX = 2288;
-    const float minY = 100;
-    const float maxY = 2252;
-
-    // Generate random position within the specified bounds
-    float x = minX + static_cast<float>(std::rand()) / (static_cast<float>(RAND_MAX / (maxX - minX)));
-    float y = minY + static_cast<float>(std::rand()) / (static_cast<float>(RAND_MAX / (maxY - minY)));
-
-    return sf::Vector2f(x, y);
-}
 
 // https://www.fesliyanstudios.com/royalty-free-music/downloads-c/8-bit-music/6 from here!
 bool playBackgroundMusic() {
@@ -67,7 +51,7 @@ int main() {
 
     TextureManager m = game.getTextureManager();
     Player player = Player(&m);
-    player.setPosition(getRandomPositionWithinBounds());
+    player.setPosition(getPositionInBound(100, 2288, 100, 2252));
     CrystalCave ccLvl = CrystalCave(0, &player);
     Dungeon dungeonLvl = Dungeon(0, &player);
     Hell hellLvl = Hell(0, &player);
