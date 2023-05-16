@@ -5,5 +5,5 @@
 
 void displayGameOverScreen(sf::RenderWindow *window);
 void displayPauseGame(sf::RenderWindow *window);
-
+void displayWelcomeScreen(sf::RenderWindow *window);
 #endif

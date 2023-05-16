@@ -80,6 +80,8 @@ int main() {
     m.load("parasiteDenObjects8x8", 8, 8);
     m.load("mountainTempleObjects8x8", 8, 8);
 
+    displayWelcomeScreen(&window);
+
     playBackgroundMusic();
     sf::Sprite sprite;
 
