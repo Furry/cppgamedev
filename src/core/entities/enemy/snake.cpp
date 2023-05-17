@@ -22,17 +22,16 @@ class Snake : public Enemy {
             this->textureManager = *textureManager;
             this->sprite = sf::Sprite();
             this->sprite.setScale(5,5);
-            this->sprite.setTexture(*this->textureManager.getTexture("chars8x8dEncounters", 22));  //I wonder if I can put this in the constructor
+            this->sprite.setTexture(*this->textureManager.getTexture("chars8x8dEncounters", 22)); 
             this->stats = {20, 20, 100, 100, 1, 1, 3, 1, 1, 1};
             this->player = *player;
         }
         
         ~Snake() {
-            this->player.pts += 1;
+            this->player.pts += 2;
         }
         
         void update(int tick, Level level){ 
-            //this->sprite.setTexture(*this->textureManager.getTexture("chars8x8dEncounters", 350));  //I wonder if I can put this in the constructor
             this->tick = tick;
 
             //Maybe implement something here to see if the enemies health is 0, and if it is then deconstruct the class
@@ -49,7 +48,7 @@ class Snake : public Enemy {
 
         void render(sf::RenderWindow* window) {
             //std::cout << "Ghost is rendering" << std::endl;
-            this->sprite.setPosition(this->position);
+            this->sprite.setPosition(this->position.x - 15, this->position.y);
             window->draw(this->sprite);
 
             //Enemy hp bar

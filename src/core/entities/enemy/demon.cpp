@@ -22,20 +22,18 @@ class Demon : public Enemy {
             this->textureManager = *textureManager;
             this->sprite = sf::Sprite();
             this->sprite.setScale(5,5);
-            this->sprite.setTexture(*this->textureManager.getTexture("chars8x8dEncounters", 7));  //I wonder if I can put this in the constructor
+            this->sprite.setTexture(*this->textureManager.getTexture("chars8x8dEncounters", 7)); 
             this->stats = {20, 20, 100, 100, 1, 1, 3, 1, 1, 1};
             this->player = *player;
         }
         
         ~Demon() {
-            this->player.pts += 1;
+            this->player.pts += 3;
         }
         
         void update(int tick, Level level){ 
-            //this->sprite.setTexture(*this->textureManager.getTexture("chars8x8dEncounters", 350));  //I wonder if I can put this in the constructor
             this->tick = tick;
 
-            //Maybe implement something here to see if the enemies health is 0, and if it is then deconstruct the class
             if( this->stats.health == 0){
                 delete this;
             }

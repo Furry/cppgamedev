@@ -187,8 +187,8 @@ class CrystalCave : public Level {
             if(tick > 300) {
                 while( enemies.size() < 2) {
                     int enemySelection = (1 + rand() % 2);
-                    float x = player.getPosition().x + ( (rand() % 350) * (-1 + rand() % 2) );    
-                    float y = player.getPosition().y + ( (rand() % 350) * (-1 + rand() % 2) );  
+                    float x = player.getPosition().x + ( 50 * (( 10 * (-1 + rand() % 2)) + 5) );    
+                    float y = player.getPosition().y + ( 50 * (( 10 * (-1 + rand() % 2)) + 5) );  
                     sf::Vector2f enemyPos = sf::Vector2f(x, y);
                     switch (enemySelection) {
                         case 1: {

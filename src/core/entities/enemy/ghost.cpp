@@ -16,6 +16,7 @@ class Ghost : public Enemy {
         int tick;
     public:
         Ghost(TextureManager *textureManager, Player* player) : player(*player) {
+            std::cout << "Ghost created" << std::endl;
             id = rand() % 1000;
             this->textureManager = *textureManager;
             this->sprite = sf::Sprite();
@@ -47,7 +48,7 @@ class Ghost : public Enemy {
 
         void render(sf::RenderWindow* window) {
             //std::cout << "Ghost is rendering" << std::endl;
-            this->sprite.setPosition(this->position);
+            this->sprite.setPosition(this->position.x - 15, this->position.y);
             window->draw(this->sprite);
 
             //Enemy hp bar
