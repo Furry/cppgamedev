@@ -158,6 +158,7 @@ class CrystalCave : public Level {
             }
 
             this->dungeonKeeper.updatePlayer( this->player.getPosition(), this->player.pts );
+            this->player.setPosition( this->player.getPosition() );
         }
 
 
@@ -176,8 +177,8 @@ class CrystalCave : public Level {
         void enemyAI(int tick){
 
             for(int i = 0; i < enemies.size(); i++){
-                enemies[i]->eMove();
                 enemies[i]->attack();
+                enemies[i]->eMove();
             }
         }
 

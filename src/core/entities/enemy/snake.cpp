@@ -143,4 +143,5 @@ class Snake : public Enemy {
         sf::Vector2f getPosition() {
             return this->position;
         }
+
 };

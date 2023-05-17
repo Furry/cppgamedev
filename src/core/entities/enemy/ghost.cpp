@@ -16,7 +16,7 @@ class Ghost : public Enemy {
         int tick;
     public:
         Ghost(TextureManager *textureManager, Player* player) : player(*player) {
-            std::cout << "Ghost created" << std::endl;
+            //std::cout << "Ghost created" << std::endl;
             id = rand() % 1000;
             this->textureManager = *textureManager;
             this->sprite = sf::Sprite();
@@ -31,7 +31,6 @@ class Ghost : public Enemy {
         }
         
         void update(int tick, Level level){ 
-            //this->sprite.setTexture(*this->textureManager.getTexture("chars8x8dEncounters", 350));  //I wonder if I can put this in the constructor
             this->tick = tick;
 
             //Maybe implement something here to see if the enemies health is 0, and if it is then deconstruct the class
@@ -47,7 +46,6 @@ class Ghost : public Enemy {
         }
 
         void render(sf::RenderWindow* window) {
-            //std::cout << "Ghost is rendering" << std::endl;
             this->sprite.setPosition(this->position.x - 15, this->position.y);
             window->draw(this->sprite);
 
@@ -98,6 +96,7 @@ class Ghost : public Enemy {
         void pMove(Direction direction) {};
 
         void eMove(){
+            //Enemy x coordinate movement in accordance to player y pos
             if( this->position.x < player.getPosition().x ) {
                 this->position.x += this->stats.speed;
 
@@ -124,6 +123,8 @@ class Ghost : public Enemy {
             float dmgRed = def / (def + 100); //Damage reduction formula
             float luck = player.stats.luck;
 
+            //std::cout << "This is the distance: " << distance() << std::endl;
+
             if( distance() < 5 && tick % 20 == 0){ //Enemy attacks if the player distance is less than 10 & module 10 tick
                 if( (1 + rand() % 30) > luck) { //If player's luck is greater than they dodge the atk, max player luck is 20
                     float dmg = dmgRed * this->stats.strength;
@@ -143,4 +144,5 @@ class Ghost : public Enemy {
         sf::Vector2f getPosition() {
             return this->position;
         }
+
 };

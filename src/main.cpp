@@ -194,7 +194,7 @@ int main() {
                 ccLvl.dungeonKeeper.renderQuestion(&window);
             }
 
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Y) && player.pts >= 10) {
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Y) && player.pts >= 10 && levelControl == 2) {
                 levelControl = 3;
             }
         }
@@ -204,23 +204,6 @@ int main() {
             ccLvl.clearEnemies();
             dungeonLvl.clearEnemies();
         }
-
-
-        //Work on stopping player movement's when the npc screen is open 
-
-        //if( player.pts >= 5) {  //This allows for the player to go to the next level
-        //    dungeonLvl.renderMap(sprite, &window, m);
-        //    //dungeonLvl.updateEnemies(tally, m, &window); 
-        //    ccLvl.clearEnemies();
-        //    hellLvl.clearEnemies();
-        //}
-        //if( player.pts >= 10) { //This allows for the player to go to the 3rd level
-        //    hellLvl.renderMap(sprite, &window, m);
-        //    //hellLvl.updateEnemies(tally, m, &window); 
-        //    ccLvl.clearEnemies();
-        //    dungeonLvl.clearEnemies();
-        //}
-
         
         player.render(&window);
         player.renderHud(&window);

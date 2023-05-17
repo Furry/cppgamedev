@@ -19,7 +19,7 @@ class Golem : public Enemy {
         int tick;
     public:
         Golem(TextureManager *textureManager, Player* player) : player(*player) {
-            std::cout << "Golem created" << std::endl;
+            //std::cout << "Golem created" << std::endl;
             id = rand() % 1000;
             this->textureManager = *textureManager;
             this->sprite = sf::Sprite();
@@ -49,7 +49,6 @@ class Golem : public Enemy {
         }
 
         void render(sf::RenderWindow* window) {
-            //std::cout << "Ghost is rendering" << std::endl;
             this->sprite.setPosition(this->position.x - 15, this->position.y);
             window->draw(this->sprite);
 
@@ -88,10 +87,13 @@ class Golem : public Enemy {
         }
 
         float distance() {
-            int xPlayerEnemyDist = abs(this->position.x - this->player.getPosition().x);
-            int yPlayerEnemyDist = abs(this->position.y - this->player.getPosition().y);
-            int playerEnemyDist = sqrt( (xPlayerEnemyDist)^2 + (yPlayerEnemyDist)^2 );
-            return playerEnemyDist;
+            sf::Vector2f playerPos = this->player.getPosition();
+            sf::Vector2f enemyPos = this->position;
+
+            float deltaX = playerPos.x - enemyPos.x;
+            float deltaY = playerPos.y - enemyPos.y;
+
+            return std::sqrt(deltaX * deltaX + deltaY * deltaY);
         }
 
         void pMove(Direction direction) {};
@@ -120,33 +122,20 @@ class Golem : public Enemy {
             
         }
 
-        //Why isn't this working even when I have something that should be keeping it in scope ???
-        //It also has a parameter so that shouldn't be the issue...... Why does only update & render work ? 
-        //Maybe cuz entity.h has both of them ???
-        //Okay figured it out, I needed the virtual void in entity for it to work
-        void randomHeaderTest(Level level){
-            //std::cout << "This was in the header and seems to be working" << std::endl;
-        }
-
-
         void attack(){
-
-            //std::cout << "Ghost is activating the atk function" << std::endl;
 
             float def = player.stats.defense;
             float dmgRed = def / (def + 100); //Damage reduction formula
             float luck = player.stats.luck;
 
+            //std::cout << "This is the distance: " << distance() << std::endl;
+
             if( distance() < 5 && tick % 20 == 0){
-                //std::cout << "Ghost is within reach to atk the player and is currently trying to atk them" << std::endl;
                 if( (1 + rand() % 20) > luck) { //If player's luck is greater than they dodge the atk
-                    //std::cout << "Golem passed luck check and attacking player" << std::endl;
                     float dmg = dmgRed * this->stats.strength;
-                    //std::cout << "Player's dmg reduction is " << dmgRed << std::endl;
                     if(dmg < 1){
                         dmg = 1;
                     }
-                    //std::cout << "Golem dmg to player is " << dmg << std::endl;
                     this->player.stats.health -= dmg;
                 }
             }
@@ -160,4 +149,5 @@ class Golem : public Enemy {
         sf::Vector2f getPosition() {
             return this->position;
         }
+
 };
